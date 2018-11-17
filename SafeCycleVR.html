@@ -6,6 +6,7 @@
     <title>SafeCycleVR</title>
     <script src="https://aframe.io/releases/0.5.0/aframe.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.controls.min.js"></script>
     <script src="https://unpkg.com/aframe-aabb-collider-component@^2.2.1/dist/aframe-aabb-collider-component.min.js"></script>
     <script src="./aabbCollider/EventSet.js"></script>
     <script src="./aabbCollider/Collider.js"></script>
@@ -32,11 +33,12 @@
             <img id = "toy" src="asset/toy.jpg">
             <img id = "grey" src="asset/grey.jpg">
             <img id = "carpark" src="asset/carpark.jpg">
+            <img id = "shared" src="asset/shared.png">
         </a-assets>
         <a-entity id="player"
             camera
             universal-controls
-            static-body
+            kinematic-body
             position="-85 1.8 45">
             <a-cylinder class = "player"
                 player = "name: Player"
@@ -62,10 +64,12 @@
         <a-plane src="#pedestrian" width="5" height="5" rotation="-90 0 0" position = "-82.5 0.05 37.5"></a-plane>
         <a-plane src="#walkway" width="5" height="24" rotation="-90 0 0" static-body position = "-82.5 0 28""></a-plane>
         <a-plane src="#walkway" width="5" height="51" rotation="-90 0 0" static-body position = "-82.5 0 -14.5"></a-plane>
-        <a-plane src="#grey" width="5" height="5" rotation="-90 0 0" static-body position = "-82.5 0 13.5"></a-plane>
+        <a-plane src="#shared" width="5" height="5" rotation="-90 -90 0" static-body position = "-82.5 0 13.5"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="60" rotation="-90 0 0" static-body position = "-57.5 0 10"></a-plane>
+        <a-plane src="#walkway" width="5" height="24" rotation="-90 0 0" static-body position = "-57.5 0 28"></a-plane>
+        <a-plane src="#walkway" width="5" height="31" rotation="-90 0 0" static-body position="-57.5 0 -4.5"></a-plane>
         <a-plane color="#414d67" width="5" height="60" rotation="-90 0 0" static-body position = "-52.5 0 10"></a-plane>
+        <a-plane src="#shared" width="5" height="5" rotation="-90 -90 0" static-body position = "-57.5 0 13.5"></a-plane>
 
         <a-plane color="#414d67" width="5" height="50" rotation="-90 90 0" static-body position = "-25 0 2.5"></a-plane>
         <a-plane src="#walkway" width="5" height="10" rotation="-90 90 0" static-body position = "-45 0 7.5"></a-plane>
@@ -82,7 +86,6 @@
         <a-plane src="#walkway" width="5" height="20" rotation="-90 90 0" static-body position = "-20 0 7.5"></a-plane>
         <a-plane src="#walkway" width="5" height="10" rotation="-90 90 0" static-body position = "5 0 22.5"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="60" rotation="-90 0 0" static-body position = "-57.5 0 10"></a-plane>
         <a-plane color="#414d67" width="5" height="60" rotation="-90 0 0" static-body position = "-52.5 0 10"></a-plane>
 
         <a-plane src="#walkway" width="5" height="45" rotation="-90 180 0" static-body position = "12.5 0 2.5"></a-plane>
@@ -246,7 +249,7 @@
             id = "hitbox3"
             collision = 0
             material="transparent: true; opacity: 0;"
-            position="-58 2.5 10" width="5" height="5" depth="60"
+            position="-58 2.5 28" width="5" height="5" depth="24"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -254,10 +257,8 @@
             car = "name: hitbox4"
             id = "hitbox4"
             collision = 0
-            color="green" 
             material="transparent: true; opacity: 0;"
-            rotation="0 90 0"
-            position="-45 2.5 7.5" width="5" height="5" depth="10"
+            position="-58 2.5 -4.5" width="5" height="5" depth="31"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -265,10 +266,10 @@
             car = "name: hitbox5"
             id = "hitbox5"
             collision = 0
-            color="green"
+            color="green" 
             material="transparent: true; opacity: 0;"
             rotation="0 90 0"
-            position="-20 2.5 7.5" width="5" height="5" depth="30"
+            position="-45 2.5 7.5" width="5" height="5" depth="10"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -279,7 +280,7 @@
             color="green"
             material="transparent: true; opacity: 0;"
             rotation="0 90 0"
-            position="-20 2.5 22.5" width="5" height="5" depth="30"
+            position="-20 2.5 7.5" width="5" height="5" depth="30"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -289,7 +290,8 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="-32.5 2.5 15" width="5" height="5" depth="10"
+            rotation="0 90 0"
+            position="-20 2.5 22.5" width="5" height="5" depth="30"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -299,13 +301,23 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="-7.5 2.5 15" width="5" height="5" depth="10"
+            position="-32.5 2.5 15" width="5" height="5" depth="10"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
             car = "name: hitbox9"
             id = "hitbox9"
+            collision = 0
+            color="green"
+            material="transparent: true; opacity: 0;"
+            position="-7.5 2.5 15" width="5" height="5" depth="10"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox10"
+            id = "hitbox10"
             collision = 0
             color="green"
             rotation="0 90 0"
@@ -315,8 +327,8 @@
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
-            car = "name: hitbox10"
-            id = "hitbox10"
+            car = "name: hitbox11"
+            id = "hitbox11"
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
@@ -325,8 +337,8 @@
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
-            car = "name: hitbox11"
-            id = "hitbox11"
+            car = "name: hitbox12"
+            id = "hitbox12"
             collision = 0
             color="green"
             rotation="0 90 0"
@@ -336,8 +348,8 @@
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
-            car = "name: hitbox12"
-            id = "hitbox12"
+            car = "name: hitbox13"
+            id = "hitbox13"
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
@@ -346,8 +358,8 @@
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
-            car = "name: hitbox13"
-            id = "hitbox13"
+            car = "name: hitbox14"
+            id = "hitbox14"
             collision = 0
             color="green"
             rotation="0 90 0"
@@ -357,22 +369,12 @@
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
-            car = "name: hitbox14"
-            id = "hitbox14"
-            collision = 0
-            color="green"
-            material="transparent: true; opacity: 0;"
-            position="-70 2 28" width="12" height="5" depth="24"
-            event-set__hitstart="color: orange" 
-            event-set__hitend="color: green" >
-        </a-box>
-        <a-box class = "nonbike"
             car = "name: hitbox15"
             id = "hitbox15"
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="-70 2 -12" width="12" height="5" depth="46"
+            position="-70 2 28" width="12" height="5" depth="24"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -382,8 +384,7 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            rotation="0 90 0"
-            position="-48.5 2 -30" width="12" height="5" depth="30"
+            position="-70 2 -12" width="12" height="5" depth="46"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -393,7 +394,8 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="-40 2 -14" width="12" height="5" depth="20"
+            rotation="0 90 0"
+            position="-48.5 2 -30" width="12" height="5" depth="30"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -403,8 +405,7 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            rotation="0 90 0"
-            position="-14 2 -10" width="12" height="5" depth="38.5"
+            position="-40 2 -14" width="12" height="5" depth="20"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -412,9 +413,10 @@
             car = "name: hitbox19"
             id = "hitbox19"
             collision = 0
-            material="transparent: true; opacity: 0;"
             color="green"
-            position="-0.5 2 -26.5" width="12" height="5" depth="20"
+            material="transparent: true; opacity: 0;"
+            rotation="0 90 0"
+            position="-14 2 -10" width="12" height="5" depth="38.5"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -424,8 +426,7 @@
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
-            rotation="0 90 0"
-            position="31 2 -30" width="12" height="5" depth="51"
+            position="-0.5 2 -26.5" width="12" height="5" depth="20"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -435,7 +436,8 @@
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
-            position="50 2 1.2" width="12" height="5" depth="50"
+            rotation="0 90 0"
+            position="31 2 -30" width="12" height="5" depth="51"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -445,14 +447,24 @@
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
-            rotation="0 90 0"
-            position="65 2 20" width="12" height="5" depth="18.5"
+            position="50 2 1.2" width="12" height="5" depth="50"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
             car = "name: hitbox23"
             id = "hitbox23"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            color="green"
+            rotation="0 90 0"
+            position="65 2 20" width="12" height="5" depth="18.5"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox24"
+            id = "hitbox24"
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
