@@ -6,7 +6,6 @@
     <title>SafeCycleVR</title>
     <script src="https://aframe.io/releases/0.5.0/aframe.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
-    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.controls.min.js"></script>
     <script src="https://unpkg.com/aframe-aabb-collider-component@^2.2.1/dist/aframe-aabb-collider-component.min.js"></script>
     <script src="./aabbCollider/EventSet.js"></script>
     <script src="./aabbCollider/Collider.js"></script>
@@ -16,7 +15,6 @@
     <a-scene>
         <a-assets>
             <img id = "ground" src="asset/ground.jpg">
-            <img id = "car" src="asset/car.png">
             <img id = "road" src="asset/road.jpg">
             <img id = "zebra" src="asset/zebra.jpg">
             <img id = "walkway" src="asset/walkway.jpg">
@@ -34,34 +32,39 @@
             <img id = "grey" src="asset/grey.jpg">
             <img id = "carpark" src="asset/carpark.jpg">
             <img id = "shared" src="asset/shared.png">
+            <img id = "walkingpedestrian" src="asset/walkingpedestrian.jpg">
+            <img id = "bicycle" src="asset/bicycle.jpg">
+            <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
+            <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
         </a-assets>
         <a-entity id="player"
             camera
             universal-controls
             kinematic-body
-            position="-85 1.8 45">
-            <a-cylinder class = "player"
+            position="-85 1.5 45">
+            <a-box class = "player"
                 player = "name: Player"
                 id = "player"
-                color="blue"
+                color="white"
                 collision = 0;
                 aabb-collider="objects: .car, .nonbike; interval: 0"
-                height="2" radius="0.3"
+                height="0.5" width="0.5" depth = "2"
                 static-body
                 event-set__hitstart="opacity: 0.5; color: orange" 
                 event-set__hitend="opacity: 1; color: blue" >
-            </a-cylinder>
+            </a-box>
         </a-entity>
+        <a-plane width="200" height="100" rotation="-90 0 0"  material="transparent: true; opacity: 0;" static-body position = "0 0.1 0"></a-plane>
         <!-------------------------------------------border-------------------------->
-        <a-plane src="#ground" width="10" height="100" rotation="-90 0 0" position = "-95 0 0"></a-plane>
+        <a-plane src="#ground" width="10" height="100" rotation="-90 0 0" static-body position = "-95 0 0"></a-plane>
         <a-plane src="#ground" width="10" height="100" rotation="-90 0 0" static-body position = "95 0 0"></a-plane>
         <a-plane src="#ground" width="10" height="200" rotation="-90 90 0" static-body position = "0 0 45"></a-plane>
         <a-plane src="#ground" width="10" height="200" rotation="-90 90 0" static-body position = "0 0 -45"></a-plane>
         <!-------------------------------------------walkway-------------------------->
 
-        <a-plane src="#bikelane" width="5" height="5" rotation="-90 0 0" position = "-87.5 0.05 37.5"></a-plane>
+        <a-plane src="#bikelane" width="5" height="5" rotation="-90 0 0" static-body position = "-87.5 0.05 37.5"></a-plane>
         <a-plane color="#414d67" width="5" height="80" rotation="-90 0 0" static-body position = "-87.5 0 0"></a-plane>
-        <a-plane src="#pedestrian" width="5" height="5" rotation="-90 0 0" position = "-82.5 0.05 37.5"></a-plane>
+        <a-plane src="#pedestrian" width="5" height="5" rotation="-90 0 0" static-body position = "-82.5 0.05 37.5"></a-plane>
         <a-plane src="#walkway" width="5" height="24" rotation="-90 0 0" static-body position = "-82.5 0 28""></a-plane>
         <a-plane src="#walkway" width="5" height="51" rotation="-90 0 0" static-body position = "-82.5 0 -14.5"></a-plane>
         <a-plane src="#shared" width="5" height="5" rotation="-90 -90 0" static-body position = "-82.5 0 13.5"></a-plane>
@@ -100,7 +103,7 @@
         <a-plane src="#walkway" width="5" height="20" rotation="-90 90 0" static-body position = "50 0 32.5"></a-plane>
         <a-plane color="#414d67" width="5" height="25" rotation="-90 90 0" static-body position = "47.5 0 37.5"></a-plane>
         <!-------------------------------------------road-------------------------->
-        <a-plane src="#zebra" width="5" height="20" rotation="-90 -90 0" position = "-70 0.05 13.5"></a-plane>
+        <a-plane src="#zebra" width="5" height="20" rotation="-90 -90 0" static-body position = "-70 0.05 13.5"></a-plane>
         <a-plane src="#road" width="20" height="60" rotation="-90 0 0" static-body position = "-70 0 10"></a-plane>
         <a-plane src="#junction" width="20" height="20" rotation="-90 0 0" static-body position = "-70 0 -30"></a-plane>
         <a-plane src="#road" width="20" height="10" rotation="-90 90 0" static-body position = "-55 0 -30"></a-plane>
@@ -166,7 +169,21 @@
             position="-77.5 5 -45" rotation="0 90 0" width="10" height="10" depth="25"
             static-body>
         </a-box>
-
+        <a-box
+            src = "#grey"
+            position="65 0.7 30.2" rotation="0 90 0" width="0.3" height="1.4" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="65 0.7 39.8" rotation="0 90 0" width="0.3" height="1.4" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="70 0.7 35" width="0.3" height="1.4" depth="9.5"
+            static-body>
+        </a-box>
         <!-------------------------------internal obstacle------------------------->
          <a-box
             src = "#slides"
@@ -472,61 +489,10 @@
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
+        <!-------------------------------movingObstacle------------------------->
+        <a-entity id="movingObstacle"></a-entity>
     </a-scene>
-     <script>
-        document.querySelector('a-scene').addEventListener('loaded', function () {
-            var MAP_SIZE = 20,
-                    WALL_SIZE = 5,
-                    NUM_WALL = 20;
-            var platformsEl = document.querySelector('#walls');
-            var v, box, animation;
-            for (var i = 0;  i < NUM_WALL; i++) {
-                // y: 0 is ground
-                v = {
-                    x: (Math.floor(Math.random() * MAP_SIZE) - WALL_SIZE) * WALL_SIZE,
-                    y: WALL_SIZE / 2,
-                    z: (Math.floor(Math.random() * MAP_SIZE) - WALL_SIZE) * WALL_SIZE
-                };
-                box = document.createElement('a-box');
-                platformsEl.appendChild(box);
-                var j = i+1;
-                box.setAttribute('id', 'box' + j);
-                box.setAttribute('color', '#39BB82');
-                box.setAttribute('width', WALL_SIZE);
-                box.setAttribute('height', WALL_SIZE);
-                box.setAttribute('depth', WALL_SIZE);
-                box.setAttribute('position', v.x + ' ' + v.y + ' ' + v.z);
-                box.setAttribute('static-body', '');
-
-                console.info("Wall no." + j);
-                console.info("x:" + v.x);
-                console.info("z:" + v.z);
-                
-                /*animation = document.createElement('a-animation');
-                document.getElementById("box" + j).appendChild(animation);
-                animation.setAttribute("attribute", "position");
-                animation.setAttribute("dur", 3000);
-                animation.setAttribute("from", v.x + ' ' + v.y + ' ' + v.z);
-                animation.setAttribute("to", (v.x + 5) + ' ' + v.y + ' ' + v.z);
-                animation.setAttribute("repeat", "indefinite");*/
-            }
-            console.info('Platforms loaded.');
-            /*var car;
-            car = document.createElement('a-box');
-            platformsEl.appendChild(car);
-            car.setAttribute('color', '#39BB82');
-            car.setAttribute('width', WALL_SIZE);
-            car.setAttribute('height', WALL_SIZE);
-            car.setAttribute('depth', WALL_SIZE);
-            car.setAttribute('position', v.x-1 + ' ' + v.y-1 + ' ' + v.z-1);
-            car.setAttribute('static-body', '');
-            console.info("Object created");
-            console.info("x:" + v.x-1);
-            console.info("z:" + v.z-1);
-            while (1){
-                
-            }*/
-        });
-    </script>
+    <!--render car-->
+   
 </body>
 </html>
