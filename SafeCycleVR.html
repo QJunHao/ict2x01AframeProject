@@ -10,6 +10,7 @@
     <script src="./aabbCollider/EventSet.js"></script>
     <script src="./aabbCollider/Collider.js"></script>
     <script src="carComponent.js"></script>
+    <script src="cubeComponent.js"></script>
 </head>
 <body>
     <a-scene>
@@ -34,6 +35,8 @@
             <img id = "shared" src="asset/shared.png">
             <img id = "walkingpedestrian" src="asset/walkingpedestrian.jpg">
             <img id = "bicycle" src="asset/bicycle.jpg">
+            <img id = "checkpoint" src="asset/checkpoint.png">
+            <img id = "clear" src="asset/clear.jpg">
             <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
             <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
         </a-assets>
@@ -489,10 +492,157 @@
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
+        <a-box class = "car"
+            car = "name: bike1"
+            id = "bike1"
+            collision = 0
+            src = "#bicycle"
+            color="white"
+            rotation="0 90 0"
+            position="68 0.7 31" width="0.2" height="1.5" depth="2"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+        </a-box>
+        <a-box class = "car"
+            car = "name: bike2"
+            id = "bike2"
+            collision = 0
+            src = "#bicycle"
+            color="white"
+            rotation="0 90 0"
+            position="68 0.7 33.5" width="0.2" height="1.5" depth="2"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+        </a-box>
+        <a-box class = "car"
+            car = "name: bike3"
+            id = "bike3"
+            collision = 0
+            color="white"
+            src = "#bicycle"
+            rotation="0 90 0"
+            position="68 0.7 37" width="0.2" height="1.5" depth="2"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+        </a-box>
+        <a-box class = "car"
+            car = "name: bike4"
+            id = "bike4"
+            collision = 0
+            color="white"
+            src = "#bicycle"
+            rotation="0 90 0"
+            position="63.5 0.7 31" width="0.2" height="1.5" depth="2"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+        </a-box>
+         <a-box class = "car"
+            cube = "name: cube"
+            id = "cube"
+            clear = 0
+            color="white"
+            src = "#clear"
+            position="63.5 0.7 35" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: #42f48f" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+
         <!-------------------------------movingObstacle------------------------->
         <a-entity id="movingObstacle"></a-entity>
     </a-scene>
     <!--render car-->
-   
+    <script>
+        document.querySelector('a-scene').addEventListener('loaded', function () {
+            var platformsEl = document.querySelector('#movingObstacle');
+            var v, car, animation, pedas;
+            for (var i = 0;  i < 10; i++) {
+                car = document.createElement('a-obj-model');
+                var j = i+1;
+                car.setAttribute('class', 'car');
+                car.setAttribute('car', "name: car" + j);
+                car.setAttribute('id', 'car' + j);
+                car.setAttribute('color', 'white');
+                car.setAttribute('collision', 0);
+                car.setAttribute('src', '#car-obj');
+                car.setAttribute('mtl', '#car-mtl');
+                car.setAttribute('scale', 0.02 + ' ' + 0.02 + ' ' + 0.02);
+                car.setAttribute('rotation', 0 + ' ' + carRotation[i] + ' ' + 0);
+                car.setAttribute('static-body', '');
+                car.setAttribute('event-set__hitstart', "color: orange");
+                car.setAttribute('event-set__hitend', "color: white");
+                platformsEl.appendChild(car);
+               
+                animation = document.createElement('a-animation');
+                animation.setAttribute("attribute", "position");
+                animation.setAttribute("dur", carDur[i]);
+                animation.setAttribute("from", carFrom[i]);
+                animation.setAttribute("to", carTo[i]);
+                animation.setAttribute("repeat", "indefinite");
+                carAnimation = platformsEl.querySelector("#car" + j);
+                carAnimation.appendChild(animation);
+            }
+            for (var i = 0;  i < 15; i++) {
+                pedas = document.createElement('a-box');
+                var j = i+1;
+                pedas.setAttribute('class', 'car');
+                pedas.setAttribute('car', "name: pedestrian" + j);
+                pedas.setAttribute('id', 'pedestrian' + j);
+                pedas.setAttribute('color', 'white');
+                pedas.setAttribute('collision', 0);
+                pedas.setAttribute('src', '#walkingpedestrian');
+                pedas.setAttribute('width', 1);
+                pedas.setAttribute('height', 2);
+                pedas.setAttribute('depth', 1);
+                pedas.setAttribute('static-body', '');
+                pedas.setAttribute('event-set__hitstart', "color: orange");
+                pedas.setAttribute('event-set__hitend', "color: white");
+                platformsEl.appendChild(pedas);
+               
+                animation = document.createElement('a-animation');
+                animation.setAttribute("attribute", "position");
+                animation.setAttribute("dur", 4000);
+                animation.setAttribute("from", pedestrianFrom[i]);
+                animation.setAttribute("to", pedestrianTo[i]);
+                animation.setAttribute("repeat", "indefinite");
+                animation.setAttribute("direction", "alternate");
+                pedestrianAnimation = platformsEl.querySelector("#pedestrian" + j);
+                pedestrianAnimation.appendChild(animation);
+            }
+            for (var i = 0;  i < 10; i++) {
+                bicycle = document.createElement('a-box');
+                var j = i+1;
+                bicycle.setAttribute('class', 'car');
+                bicycle.setAttribute('car', "name: bike" + j);
+                bicycle.setAttribute('id', 'bike' + j);
+                bicycle.setAttribute('color', 'white');
+                bicycle.setAttribute('collision', 0);
+                bicycle.setAttribute('src', '#bicycle');
+                bicycle.setAttribute('width', 0.2);
+                bicycle.setAttribute('height', 1.5);
+                bicycle.setAttribute('depth', 2);
+                bicycle.setAttribute('rotation', 0 + ' ' + bicycleRotation[i] + ' ' + 0);
+                bicycle.setAttribute('static-body', '');
+                bicycle.setAttribute('event-set__hitstart', "color: orange");
+                bicycle.setAttribute('event-set__hitend', "color: white");
+                platformsEl.appendChild(bicycle);
+               
+                animation = document.createElement('a-animation');
+                animation.setAttribute("attribute", "position");
+                animation.setAttribute("dur", 4000);
+                animation.setAttribute("from", bicycleFrom[i]);
+                animation.setAttribute("to", bicycleTo[i]);
+                animation.setAttribute("repeat", "indefinite");
+                animation.setAttribute("direction", "alternate");
+                pedestrianAnimation = platformsEl.querySelector("#bike" + j);
+                pedestrianAnimation.appendChild(animation);
+            }
+        });
+    </script>
 </body>
 </html>
