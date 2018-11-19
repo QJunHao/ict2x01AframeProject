@@ -11,6 +11,8 @@
     <script src="./aabbCollider/Collider.js"></script>
     <script src="carComponent.js"></script>
     <script src="cubeComponent.js"></script>
+    <script src="flagComponent.js"></script>
+    <script src="playerComponent.js"></script>
 </head>
 <body>
     <a-scene>
@@ -37,6 +39,7 @@
             <img id = "bicycle" src="asset/bicycle.jpg">
             <img id = "checkpoint" src="asset/checkpoint.png">
             <img id = "clear" src="asset/clear.jpg">
+            <img id = "flag" src="asset/flag.jpg">
             <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
             <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
         </a-assets>
@@ -47,14 +50,14 @@
             position="-85 1.5 45">
             <a-box class = "player"
                 player = "name: Player"
-                id = "player"
+                id = "Player"
                 color="white"
                 collision = 0;
                 aabb-collider="objects: .car, .nonbike; interval: 0"
                 height="0.5" width="0.5" depth = "2"
                 static-body
                 event-set__hitstart="opacity: 0.5; color: orange" 
-                event-set__hitend="opacity: 1; color: blue" >
+                event-set__hitend="opacity: 1; color: white" >
             </a-box>
         </a-entity>
         <a-plane width="200" height="100" rotation="-90 0 0"  material="transparent: true; opacity: 0;" static-body position = "0 0.1 0"></a-plane>
@@ -536,7 +539,7 @@
             event-set__hitstart="color: orange" 
             event-set__hitend="color: white" >
         </a-box>
-         <a-box class = "car"
+        <a-box class = "car"
             cube = "name: cube"
             id = "cube"
             clear = 0
@@ -552,7 +555,22 @@
                 repeat="indefinite">
             </a-animation>
         </a-box>
-
+        <a-box class = "car"
+            flag = "name: end"
+            id = "end"
+            clear = 0
+            color="white"
+            src = "#flag"
+            position="65 3 -45" width="5" height="5" depth="5"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: #42f48f" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
         <!-------------------------------movingObstacle------------------------->
         <a-entity id="movingObstacle"></a-entity>
     </a-scene>
