@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>SafeCycleVRTutorial</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-component@^0.4.1/dist/aframe-text-component.min.js"></script> 
+    <script src="https://unpkg.com/aframe-aabb-collider-component@^2.2.1/dist/aframe-aabb-collider-component.min.js"></script>
+    <script src="./aabbCollider/EventSet.js"></script>
+    <script src="./aabbCollider/Collider.js"></script>
+    <script src="cubeComponent.js"></script>
+    <script src="flagComponent.js"></script>
+    <script src="playerComponent.js"></script>
+    <style>
+  #about {
+        display: none;
+        position: absolute;
+        z-index: 7001;
+        width: 300px;
+        top: 40px;
+        right: 40px;
+        font: 14px 'Voces', Arial, sans-serif;
+        color: white;
+        line-height: 1.3rem;
+        background: rgba(0,0,0,0.2);
+        padding: 1rem;
+        box-sizing: border-box;
+        display: block;
+      }
+
+       #about p:last-child{
+        margin: 0;
+      }
+
+      #about b{
+          font-weight: bold;
+          font-family: monospace;
+      }
+
+      @media (max-width: 400px), (max-height: 300px) {
+      #about {
+        left: 5%;
+        top: 5%;
+        width: 90%;
+      }
+      }
+</style>
+</head>
+<body>
+     <div id="about">
+        <p id = "hp">100</p>
+    </div>
+    <a-scene>
+        <a-assets>
+            <img id = "ground" src="asset/ground.jpg">
+            <img id = "road" src="asset/road.jpg">
+            <img id = "zebra" src="asset/zebra.jpg">
+            <img id = "walkway" src="asset/walkway.jpg">
+            <img id = "pedestrian" src="asset/pedestrian.jpg">
+            <img id = "junction" src="asset/junction.jpg">
+            <img id = "bikelane" src="asset/bikelane.jpg">
+            <img id = "bikepark" src="asset/bikepark.png">
+            <img id = "building" src="asset/building.jpg">
+            <img id = "tree" src="asset/tree.jpg">
+            <img id = "fence" src="asset/fence.jpg">
+            <img id = "slides" src="asset/slides.jpg">
+            <img id = "swing" src="asset/swing.jpg">
+            <img id = "coffee" src="asset/coffee.jpg">
+            <img id = "toy" src="asset/toy.jpg">
+            <img id = "grey" src="asset/grey.jpg">
+            <img id = "carpark" src="asset/carpark.jpg">
+            <img id = "shared" src="asset/shared.png">
+            <img id = "walkingpedestrian" src="asset/walkingpedestrian.jpg">
+            <img id = "bicycle" src="asset/bicycle.jpg">
+            <img id = "checkpoint" src="asset/checkpoint.png">
+            <img id = "clear" src="asset/clear.jpg">
+            <img id = "flag" src="asset/flag.jpg">
+            <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
+            <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
+        </a-assets>
+        <a-entity id="player"
+            camera
+            universal-controls
+            kinematic-body
+            position="0 2.5 55">
+            <a-box class = "player"
+                player = "name: Player"
+                id = "Player"
+                color="white"
+                collision = "0";
+                aabb-collider="objects: .car, .nonbike; interval: 0"
+                height="0.5" width="0.5" depth = "2"
+                static-body
+                event-set__hitstart="opacity: 0.5; color: orange" 
+                event-set__hitend="opacity: 1; color: white" >
+            </a-box>
+        </a-entity>
+        <a-plane src="#ground" width="50" height="1000" rotation="-90 0 0" material="transparent: true; opacity: 0;" static-body position = "0 0.1 -440"></a-plane>
+        <!-------------------------------------------border-------------------------->
+         <a-plane src="#bikelane" width="5" height="5" rotation="-90 0 0" static-body position = "-2.5 0.05 37.5"></a-plane>
+        <a-plane color="#414d67" width="5" height="170" rotation="-90 0 0" static-body position = "-2.5 0 -45"></a-plane>
+        <a-plane src="#pedestrian" width="5" height="5" rotation="-90 0 0" static-body position = "2.5 0.05 37.5"></a-plane>
+        <a-plane src="#walkway" repeat = "1 40" width="5" height="170" rotation="-90 0 0" static-body position = "2.5 0 -45"></a-plane>
+        <a-plane src="#ground" width="10" height="20" rotation="-90 0 0" static-body position = "0 0 50""></a-plane>
+        <a-plane src="#shared" width="10" height="10" rotation="-90 0 0" static-body position = "0 0.05 7"></a-plane>
+        <a-plane src="#zebra" width="10" height="10" rotation="-90 0 0" static-body position = "0 0.05 -50"></a-plane>
+        <a-plane src="#road" width="10" height="40" rotation="-90 90 0" static-body position = "0 0 -50"></a-plane>
+        <a-box
+            src = "#grey"
+            position="-5 0.7 -92" width="0.3" height="1.4" depth="75"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="5 0.7 -92" width="0.3" height="1.4" depth="75"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="5 0.7 7.5" width="0.3" height="1.4" depth="105"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="-5 0.7 7.5" width="0.3" height="1.4" depth="105"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="-20 0.7 -50" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="20 0.7 -50" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="-12.5 0.7 -55" rotation = "0 90 0" width="0.3" height="1.4" depth="14.7"
+            static-body>
+        </a-box>
+         <a-box
+            src = "#grey"
+            position="-12.5 0.7 -45" rotation = "0 90 0" width="0.3" height="1.4" depth="14.7"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="12.5 0.7 -55" rotation = "0 90 0" width="0.3" height="1.4" depth="14.7"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="12.5 0.7 -45" rotation = "0 90 0" width="0.3" height="1.4" depth="14.7"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="0 0.7 -129.5" rotation = "0 90 0" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="0 0.7 60" rotation = "0 90 0" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+        <a-sky id="sky" color="#AADDF0"></a-sky>
+        <a-box class = "nonbike"
+            car = "name: hitbox1"
+            id = "hitbox1"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            position="2.5 2.5 26.2" width="5" height="5" depth="27.5"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox2"
+            id = "hitbox2"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            position="2.5 2.5 -21.5" width="5" height="5" depth="47"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox3"
+            id = "hitbox3"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            position="2.5 2.5 -65" width="5" height="5" depth="20"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox4"
+            id = "hitbox4"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            position="2.5 2.5 -107.5" width="5" height="5" depth="45"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox5"
+            id = "hitbox5"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            rotation = "0 90 0"
+            position="-12.5 2.5 -50" width="5" height="5" depth="15"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox6"
+            id = "hitbox6"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            rotation = "0 90 0"
+            position="12.5 2.5 -50" width="5" height="5" depth="15"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+       <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "0 3 50"
+            material="color: blue"
+            text="value: Welcome to the tutorial!                                        Please walk forward and complete all tasks to finish the tutorial.;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "0 3 40"
+            material="color: blue"
+            text="value: You must travel on the correct path to avoid any damage and clear the tutorial.                                     If your damage reaches 100, you will need to restart the tutorial.                                                               Clue: you are travelling on a bicycle!;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-2 3 12"
+            material="color: blue"
+            text="value: If you see this green symbol, it means you are sharing this small area with the walking pedastrians as well!                                                                No damage is incurred even if you are standing on the grey side of the path when you are in this area.;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-2 3 0"
+            material="color: blue"
+            text="value: However, after leaving this green symbol, you are only safe on the bike lane!;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-2 3 -18"
+            material="color: blue"
+            text="value: Sometimes, there will be other pedastrians using the same path you. Remember to avoid them! Same goes for other PMD users.;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-2 3 -47"
+            material="color: blue"
+            text="value: Use the zebra crossing whenever you need to cross the road. Look out for incoming vehicles!;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-2 3 -70"
+            material="color: blue"
+            text="value: Look for the bike parking area to find the checkpoint! You will need to touch the checkpoint to clear the game.                                             Checkpoint will turn green upon a successful contact.;
+                align: center; ">
+        </a-entity>
+        <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-2 3 -105"
+            material="color: blue"
+            text="value: Congratulation! This is the finishing cube! Touch this cube to finish the game.;
+                align: center; ">
+        </a-entity>
+        <a-box class = "car"
+            car = "name: pedas1"
+            id = "pedas1"
+            color="white"
+            collision = 0
+            src = "#walkingpedestrian"
+            width="1" height="2" depth="1"
+            static-body
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="position"
+                dur="2000" 
+                from="2.5 1 -20" 
+                to="2.5 1 -25" 
+                repeat="indefinite"
+                direction = "alternate">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            car = "name: pedas2"
+            id = "pedas2"
+            color="white"
+            collision = 0
+            src = "#walkingpedestrian"
+            width="1" height="2" depth="1"
+            static-body
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="position"
+                dur="2000" 
+                from="1.5 1 -25" 
+                to="-2 1 -25" 
+                repeat="indefinite"
+                direction = "alternate">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            car = "name: bicycle"
+            id = "bicycle"
+            color="white"
+            collision = 0
+            src = "#bicycle"
+            width="0.2" height="1.5" depth="2"
+            static-body
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="position"
+                dur="2000" 
+                from="-2 1 -33" 
+                to="-2 1 -27" 
+                repeat="indefinite"
+                direction = "alternate">
+            </a-animation>
+        </a-box>
+        <a-obj-model class = "car"
+            car = "name: car"
+            id = "car"
+            color="white"
+            collision = 0
+            src = "#car-obj"
+            mtl = "#car-mtl"
+            scale = "0.02 0.02 0.02"
+            rotation = "0 -68 0"
+            width="0.2" height="1.5" depth="2"
+            static-body
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="position"
+                dur="2000" 
+                from="-15 -0.5 -52" 
+                to="15 -0.5 -52" 
+                repeat="indefinite">
+            </a-animation>
+        </a-obj-model>
+        <a-box class = "car"
+            cube = "name: cube"
+            id = "cube"
+            clear = 0
+            color="white"
+            src = "#clear"
+            position="-2.5 0.7 -80" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: #42f48f" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            flag = "name: end"
+            id = "end"
+            clear = 0
+            color="white"
+            src = "#flag"
+            position="-2.5 1 -110" width="2" height="2" depth="2"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-plane src="#bikepark" width="10" height="10" rotation="-90 0 0" static-body position = "0 0.05 -80"></a-plane>
+</a-scene>
+    <!--render car-->
+    <script>
+      AFRAME.registerComponent('overlay-visibility', {
+        init: function () {
+          if (!this.el.isMobile) {
+            document.querySelector('#about').style.display = 'block';
+          }
+        }
+      });
+</script>
+</body>
+</html>
