@@ -21,7 +21,7 @@ AFRAME.registerComponent('navcube', {
   			if (cubeName == "game")
   				window.open("http://localhost/Aframe/SafeCycleVR.html", '_self', false);
   			else if (cubeName == "quit")
-  				console.log("quit");
+  				window.open("http://localhost/Aframe/SafeCycleVRMain.html", '_self', false);
   				//window.open("http://localhost/Aframe/map.html", '_self', false);
         else if (cubeName == "tut")
           window.open("http://localhost/Aframe/SafeCycleVRTutorial.html", '_self', false);

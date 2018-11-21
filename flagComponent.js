@@ -23,10 +23,8 @@ AFRAME.registerComponent('flag', {
 		}
 		if (box.getAttribute("color") == "#42f48f"){
 			console.log("green");
-			if (parseInt(box.getAttribute("clear")) == 1){
-				console.log("next page");
-	  			window.open("http://localhost/Aframe/map.html", '_self', false);
-			}
+			if (parseInt(box.getAttribute("clear")) == 1)
+	  			window.open("http://localhost/Aframe/SafeCycleVR.html", '_self', false);
   		}
   	}
 });

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SafeCycle VR</title>
+</head>
+
+<body>
+<canvas id="myCanvas" width="1510" height="700"></canvas> 
+<script type="text/javascript">
+	var canvas = document.getElementById("myCanvas");
+	var context = canvas.getContext("2d");
+	
+	var width = canvas.getAttribute('width');
+	var height = canvas.getAttribute('height');
+	
+	var mouseX;
+	var mouseY;
+	
+
+	var backgroundImage = new Image();
+	var enterPinImage = new Image();
+	var keypad1 = new Image();
+	var keypad2 = new Image();
+	var keypad3 = new Image();
+	var keypad4 = new Image();
+	var keypad5 = new Image();
+	var keypad6 = new Image();
+	var keypad7 = new Image();
+	var keypad8 = new Image();
+	var keypad9 = new Image();
+	var refreshButton = new Image();
+
+	var pinEntered="";
+
+	var goUpOrDown = 0; /* 0==up, 1==down */
+	var backgroundMoveValue = 0;
+	var bgMoveSpeed = 1;
+	
+	var buttonXaxis = [605,715,825,605,715,825,605,715,825,600,700]; //
+	var buttonYaxis = [200,200,200,310,310,310,420,420,420,50,530]; //
+	var buttonWidth = [75,75,75,75,75,75,75,75,75,300,102];
+	var buttonHeight = [75,75,75,75,75,75,75,75,75,70,102];
+	
+	var frames = 30;
+    var timerId = 0;
+	var time = 0.0;
+
+	backgroundImage.src = "Images/Background3.png";
+
+	keypad1.onload = function(){
+		context.drawImage(keypad1, buttonXaxis[0], buttonYaxis[0]);
+	}
+	keypad1.src = "Images/keypad1.png";
+
+	keypad2.onload = function(){
+		context.drawImage(keypad2, buttonXaxis[1], buttonYaxis[1]);
+	}
+	keypad2.src = "Images/keypad2.png";
+
+	keypad3.onload = function(){
+		context.drawImage(keypad3, buttonXaxis[2], buttonYaxis[2]);
+	}
+	keypad3.src = "Images/keypad3.png";
+
+	keypad4.onload = function(){
+		context.drawImage(keypad4, buttonXaxis[3], buttonYaxis[3]);
+	}
+	keypad4.src = "Images/keypad4.png";
+
+	keypad5.onload = function(){
+		context.drawImage(keypad5, buttonXaxis[4], buttonYaxis[4]);
+	}
+	keypad5.src = "Images/keypad5.png";
+
+	keypad6.onload = function(){
+		context.drawImage(keypad6, buttonXaxis[5], buttonYaxis[5]);
+	}
+	keypad6.src = "Images/keypad6.png";
+
+	keypad7.onload = function(){
+		context.drawImage(keypad7, buttonXaxis[6], buttonYaxis[6]);
+	}
+	keypad7.src = "Images/keypad7.png";
+
+	keypad8.onload = function(){
+		context.drawImage(keypad8, buttonXaxis[7], buttonYaxis[7]);
+	}
+	keypad8.src = "Images/keypad8.png";
+
+	keypad9.onload = function(){
+		context.drawImage(keypad9, buttonXaxis[8], buttonYaxis[8]);
+	}
+	keypad9.src = "Images/keypad9.png";
+
+	enterPinImage.onload = function(){
+		context.drawImage(enterPinImage, buttonXaxis[9], buttonYaxis[9]);
+	}
+	enterPinImage.src = "Images/enterPinLogo.png";
+
+	refreshButton.onload = function(){
+		context.drawImage(refreshButton, buttonXaxis[10], buttonYaxis[10]);
+	}
+	refreshButton.src = "Images/refreshButton.png";
+
+
+	timerId = setInterval("update()", 1000/frames);
+	canvas.addEventListener("mousemove", checkMousePosition);
+	canvas.addEventListener("mouseup", checkMouseClick);
+	
+	function update() {
+		clear();
+		move();
+		draw();
+	}
+
+	function clear() {
+		context.clearRect(0, 0, width, height);
+	}
+
+	function move(){
+		if (goUpOrDown == 0){ 
+			backgroundMoveValue -= bgMoveSpeed;
+			if(backgroundMoveValue == -1 * height){
+				goUpOrDown = 1;
+			}
+		}
+		if (goUpOrDown == 1){ 
+			backgroundMoveValue += bgMoveSpeed;
+			if(backgroundMoveValue == 0){
+				goUpOrDown = 0;
+			}
+		}
+	}
+
+	function draw(){
+		context.drawImage(backgroundImage, 0, backgroundMoveValue);
+		context.drawImage(keypad1, buttonXaxis[0], buttonYaxis[0]);
+		context.drawImage(keypad2, buttonXaxis[1], buttonYaxis[1]);
+		context.drawImage(keypad3, buttonXaxis[2], buttonYaxis[2]);
+		context.drawImage(keypad4, buttonXaxis[3], buttonYaxis[3]);
+		context.drawImage(keypad5, buttonXaxis[4], buttonYaxis[4]);
+		context.drawImage(keypad6, buttonXaxis[5], buttonYaxis[5]);
+		context.drawImage(keypad7, buttonXaxis[6], buttonYaxis[6]);
+		context.drawImage(keypad8, buttonXaxis[7], buttonYaxis[7]);
+		context.drawImage(keypad9, buttonXaxis[8], buttonYaxis[8]);
+		context.drawImage(enterPinImage, buttonXaxis[9], buttonYaxis[9]);
+		context.drawImage(refreshButton, buttonXaxis[10], buttonYaxis[10]);
+	}
+
+
+	function checkMousePosition(mouseEvent){
+		if(mouseEvent.pageX || mouseEvent.pageY == 0){	/*  pageX/pageY returns the horizontal/vertical coordinate of the mouse pointer (in the webpage) when a mouse event is triggered */
+			mouseX = mouseEvent.pageX - this.offsetLeft;
+			mouseY = mouseEvent.pageY - this.offsetTop;
+		}else if(mouseEvent.offsetX || mouseEvent.offsetY == 0){
+			mouseX = mouseEvent.offsetX;
+			mouseY = mouseEvent.offsetY;
+		}
+	}
+
+	function checkMouseClick(mouseEvent){
+		//for(i = 0; i < buttonXaxis.length; i++){
+		for(i = 0; i < 11; i++){
+			if(mouseX > buttonXaxis[i] && mouseX < buttonXaxis[i] + buttonWidth[i]){ /* if click is within the width dimension of a button */
+				if(mouseY > buttonYaxis[i] && mouseY < buttonYaxis[i] + buttonHeight[i]){ /* and if click is within the height dimension of a button */
+					if(i==0){
+						pinEntered+="a";
+						keypad1.src = "Images/keypad1Glow.png";
+					}
+					else if(i==1){
+						pinEntered+="b";
+						keypad2.src = "Images/keypad2Glow.png";
+					}
+					else if(i==2){
+						pinEntered+="c";
+						keypad3.src = "Images/keypad3Glow.png";
+					}
+					else if(i==3){
+						pinEntered+="d";
+						keypad4.src = "Images/keypad4Glow.png";
+					}
+					else if(i==4){
+						pinEntered+="e";
+						keypad5.src = "Images/keypad5Glow.png";
+					}
+					else if(i==5){
+						pinEntered+="f";
+						keypad6.src = "Images/keypad6Glow.png";
+					}
+					else if(i==6){
+						pinEntered+="g";
+						keypad7.src = "Images/keypad7Glow.png";
+					}
+					else if(i==7){
+						pinEntered+="h";
+						keypad8.src = "Images/keypad8Glow.png";
+					}
+					else if(i==8){
+						pinEntered+="i";
+						keypad9.src = "Images/keypad9Glow.png";
+					}
+					else if(i==9){
+						if(pinEntered=="aei"){
+							popup_window = window.open("SafeCycleVRDesignEdit.html", '_self', false);
+							windowClose();
+						}
+					}
+					else if(i==10){
+						pinEntered="";
+						keypad1.src = "Images/keypad1.png";
+						keypad2.src = "Images/keypad2.png";
+						keypad3.src = "Images/keypad3.png";
+						keypad4.src = "Images/keypad4.png";
+						keypad5.src = "Images/keypad5.png";
+						keypad6.src = "Images/keypad6.png";
+						keypad7.src = "Images/keypad7.png";
+						keypad8.src = "Images/keypad8.png";
+						keypad9.src = "Images/keypad9.png";
+					}
+				}
+			}
+		}
+	}
+
+	function windowClose() {
+		window.open('','_parent','');
+		window.close();
+	}
+
+</script> 
+</body>
+
+</html> 

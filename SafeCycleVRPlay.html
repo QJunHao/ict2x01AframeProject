@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SafeCycle VR</title>
+</head>
+
+<body>
+<canvas id="myCanvas" width="1510" height="700"></canvas> 
+<script type="text/javascript">
+	var canvas = document.getElementById("myCanvas");
+	var context = canvas.getContext("2d");
+	
+	var width = canvas.getAttribute('width');
+	var height = canvas.getAttribute('height');
+	
+	var mouseX;
+	var mouseY;
+	
+
+	var backgroundImage = new Image();
+	var selectDifficultyImage = new Image();
+	var selectPmdImage = new Image();
+	var diffOneImage = new Image();
+	var diffTwoImage = new Image();
+	var diffThreeImage = new Image();
+	var diffFourImage = new Image();
+	var diffFiveImage = new Image();
+	var pmdBicycle = new Image();
+	var pmdScooter = new Image();
+	var startButton = new Image();
+
+	var difficultySelected=5; // Difficulty chosen: 0=Easy, 1=Normal, 2=Hard, 3=Challenge, 4=Impossible, 5=Nothing selected!
+	var pmdSelected=5; // PMD chosen: 0=Bicycle, 1=Scooter, 5=Nothing selected!
+
+	var goUpOrDown = 0; /* 0==up, 1==down */
+	var backgroundMoveValue = 0;
+	var bgMoveSpeed = 1;
+	
+	var buttonXaxis = [320,320,320,800,800,1200]; //
+	var buttonYaxis = [200,350,500,200,400,350]; //
+	var buttonWidth = [100,100,100,250,250,259];
+	var buttonHeight = [100,100,100,158,260,68];
+	
+	var frames = 30;
+    var timerId = 0;
+	var time = 0.0;
+
+
+	backgroundImage.src = "Images/Background2.png";
+	selectDifficultyImage.src = "Images/difficultyLogo.png";
+	selectPmdImage.src = "Images/pmdLogo.png";
+
+
+	diffOneImage.onload = function(){
+		context.drawImage(diffOneImage, buttonXaxis[0], buttonYaxis[0]);
+	}
+	diffOneImage.src = "Images/Easy.png";
+
+	diffTwoImage.onload = function(){
+		context.drawImage(diffTwoImage, buttonXaxis[1], buttonYaxis[1]);
+	}
+	diffTwoImage.src = "Images/Normal.png";
+
+	diffThreeImage.onload = function(){
+		context.drawImage(diffThreeImage, buttonXaxis[2], buttonYaxis[2]);
+	}
+	diffThreeImage.src = "Images/Hard.png";
+
+	pmdBicycle.onload = function(){
+		context.drawImage(pmdBicycle, buttonXaxis[3], buttonYaxis[3]);
+	}
+	pmdBicycle.src = "Images/pmdBicycle.png";
+
+	pmdScooter.onload = function(){
+		context.drawImage(pmdScooter, buttonXaxis[4], buttonYaxis[4]);
+	}
+	pmdScooter.src = "Images/pmdScooter.png";
+
+	startButton.onload = function(){
+		context.drawImage(startButton, buttonXaxis[5], buttonYaxis[5]);
+	}
+	startButton.src = "Images/startButton2.png";
+
+
+	timerId = setInterval("update()", 1000/frames);
+	canvas.addEventListener("mousemove", checkMousePosition);
+	canvas.addEventListener("mouseup", checkMouseClick);
+	
+	function update() {
+		clear();
+		move();
+		draw();
+	}
+
+	function clear() {
+		context.clearRect(0, 0, width, height);
+	}
+
+	function move(){
+		if (goUpOrDown == 0){ 
+			backgroundMoveValue -= bgMoveSpeed;
+			if(backgroundMoveValue == -1 * height){
+				goUpOrDown = 1;
+			}
+		}
+		if (goUpOrDown == 1){ 
+			backgroundMoveValue += bgMoveSpeed;
+			if(backgroundMoveValue == 0){
+				goUpOrDown = 0;
+			}
+		}
+	}
+
+	function draw(){
+		context.drawImage(backgroundImage, 0, backgroundMoveValue);
+		context.drawImage(selectDifficultyImage, 150,50);
+		context.drawImage(selectPmdImage, 700,50);
+		context.drawImage(diffOneImage, buttonXaxis[0], buttonYaxis[0]);
+		context.drawImage(diffTwoImage, buttonXaxis[1], buttonYaxis[1]);
+		context.drawImage(diffThreeImage, buttonXaxis[2], buttonYaxis[2]);
+		context.drawImage(pmdBicycle, buttonXaxis[3], buttonYaxis[3]);
+		context.drawImage(pmdScooter, buttonXaxis[4], buttonYaxis[4]);
+		context.drawImage(startButton, buttonXaxis[5], buttonYaxis[5]);
+	}
+
+
+	function checkMousePosition(mouseEvent){
+		if(mouseEvent.pageX || mouseEvent.pageY == 0){	/*  pageX/pageY returns the horizontal/vertical coordinate of the mouse pointer (in the webpage) when a mouse event is triggered */
+			mouseX = mouseEvent.pageX - this.offsetLeft;
+			mouseY = mouseEvent.pageY - this.offsetTop;
+		}else if(mouseEvent.offsetX || mouseEvent.offsetY == 0){
+			mouseX = mouseEvent.offsetX;
+			mouseY = mouseEvent.offsetY;
+		}
+	}
+
+	function checkMouseClick(mouseEvent){
+		//for(i = 0; i < buttonXaxis.length; i++){
+		for(i = 0; i < 8; i++){
+			if(mouseX > buttonXaxis[i] && mouseX < buttonXaxis[i] + buttonWidth[i]){ /* if click is within the width dimension of a button */
+				if(mouseY > buttonYaxis[i] && mouseY < buttonYaxis[i] + buttonHeight[i]){ /* and if click is within the height dimension of a button */
+					if(i==0){
+						difficultySelected=0;
+						diffOneImage.src = "Images/EasyGlow.png";
+						diffTwoImage.src = "Images/Normal.png";
+						diffThreeImage.src = "Images/Hard.png";
+					}
+					else if(i==1){
+						difficultySelected=1;
+						diffOneImage.src = "Images/Easy.png";
+						diffTwoImage.src = "Images/NormalGlow.png";
+						diffThreeImage.src = "Images/Hard.png";
+					}
+					else if(i==2){
+						difficultySelected=2;
+						diffOneImage.src = "Images/Easy.png";
+						diffTwoImage.src = "Images/Normal.png";
+						diffThreeImage.src = "Images/HardGlow.png";
+					}
+					else if(i==3){
+						pmdSelected=0;
+						pmdBicycle.src = "Images/pmdBicycleGlow.png";
+						pmdScooter.src = "Images/pmdScooter.png";
+					}
+					else if(i==4){
+						pmdSelected=1;
+						pmdBicycle.src = "Images/pmdBicycle.png";
+						pmdScooter.src = "Images/pmdScooterGlow.png";
+					}
+					else if(i==5){
+						if(difficultySelected!=5 && pmdSelected!=5){
+							popup_window = window.open("SafeCycleVR.html", '_self', false);
+							windowClose();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	function windowClose() {
+		window.open('','_parent','');
+		window.close();
+	}
+
+</script> 
+</body>
+
+</html> 

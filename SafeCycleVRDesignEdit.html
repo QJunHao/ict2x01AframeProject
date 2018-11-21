@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SafeCycle VR</title>
+</head>
+
+<body>
+<canvas id="myCanvas" width="1510" height="700"></canvas> 
+<script type="text/javascript">
+	var canvas = document.getElementById("myCanvas");
+	var context = canvas.getContext("2d");
+	
+	var width = canvas.getAttribute('width');
+	var height = canvas.getAttribute('height');
+	
+	var mouseX;
+	var mouseY;
+	
+
+	var backgroundImage = new Image();
+	var saveButton = new Image();	//Old enter PIN button
+	var decreaseNoPedestrians = new Image();
+	var increaseNoPedestrians = new Image();
+	var decreaseNoPmd = new Image();
+	var increaseNoPmd = new Image();
+	var decreaseNoVehicles = new Image();
+	var increaseNoVehicles = new Image();
+	var exitButton = new Image();
+	var numberPedestrians = new Image();
+	var numberPmd = new Image();
+	var numberVehicles = new Image(); //Old referesh button
+	var logoPedestrians = new Image();
+	var logoPmd = new Image();
+	var logoVehicles = new Image(); 
+	//Level selected
+	var levelOneImage = new Image();
+	var levelTwoImage = new Image();
+	var levelThreeImage = new Image();
+	var levelFourImage = new Image();
+	var levelFiveImage = new Image();
+
+
+	var totalNoOfPedestrians=0;
+	var totalNoOfPmd=0;
+	var totalNoOfVehicles=0;
+	var levelSelected=0; // Difficulty chosen: 0=Easy, 1=Normal, 2=Hard
+	var isTheEditSaved=0; // 0==Don't save, 1==save.
+
+	var pedestrianArray=[0,0,0];
+	var pmdArray=[0,0,0];
+	var vehicleArray=[0,0,0];
+
+	var goUpOrDown = 0; /* 0==up, 1==down */
+	var backgroundMoveValue = 0;
+	var bgMoveSpeed = 1;
+	
+	var buttonXaxis = [250,1200,250,1200,250,1200,190,360,360,360,1140,570,720,870]; //
+	var buttonYaxis = [100,100,250,250,400,400,570,100,250,400,570,560,560,560]; //
+	var buttonWidth = [75,75,75,75,75,75,199,75,75,75,199,75,75,75];
+	var buttonHeight = [75,75,75,75,75,75,55,75,75,75,55,75,75,75];
+	
+	var frames = 30;
+    var timerId = 0;
+	var time = 0.0;
+
+	backgroundImage.src = "Images/Background3.png";
+
+	decreaseNoPedestrians.onload = function(){
+		context.drawImage(decreaseNoPedestrians, buttonXaxis[0], buttonYaxis[0]);
+	}
+	decreaseNoPedestrians.src = "Images/minus.png";
+
+	increaseNoPedestrians.onload = function(){
+		context.drawImage(increaseNoPedestrians, buttonXaxis[1], buttonYaxis[1]);
+	}
+	increaseNoPedestrians.src = "Images/plus.png";
+
+	decreaseNoPmd.onload = function(){
+		context.drawImage(decreaseNoPmd, buttonXaxis[2], buttonYaxis[2]);
+	}
+	decreaseNoPmd.src = "Images/minus.png";
+
+	increaseNoPmd.onload = function(){
+		context.drawImage(increaseNoPmd, buttonXaxis[3], buttonYaxis[3]);
+	}
+	increaseNoPmd.src = "Images/plus.png";
+
+	decreaseNoVehicles.onload = function(){
+		context.drawImage(decreaseNoVehicles, buttonXaxis[4], buttonYaxis[4]);
+	}
+	decreaseNoVehicles.src = "Images/minus.png";
+
+	increaseNoVehicles.onload = function(){
+		context.drawImage(increaseNoVehicles, buttonXaxis[5], buttonYaxis[5]);
+	}
+	increaseNoVehicles.src = "Images/plus.png";
+
+	exitButton.onload = function(){
+		context.drawImage(exitButton, buttonXaxis[6], buttonYaxis[6]);
+	}
+	exitButton.src = "Images/exitButtonEdit.png";
+
+	numberPedestrians.onload = function(){
+		context.drawImage(numberPedestrians, buttonXaxis[7], buttonYaxis[7]);
+	}
+	numberPedestrians.src = "Images/noOfPedes.png";
+
+	numberPmd.onload = function(){
+		context.drawImage(numberPmd, buttonXaxis[8], buttonYaxis[8]);
+	}
+	numberPmd.src = "Images/noOfPmd.png";
+
+	numberVehicles.onload = function(){
+		context.drawImage(numberVehicles, buttonXaxis[9], buttonYaxis[9]);
+	}
+	numberVehicles.src = "Images/noOfVeh.png";
+
+	saveButton.onload = function(){
+		context.drawImage(saveButton, buttonXaxis[10], buttonYaxis[10]);
+	}
+	saveButton.src = "Images/saveButtonEdit.png";
+
+	levelOneImage.onload = function(){
+		context.drawImage(levelOneImage, buttonXaxis[11], buttonYaxis[11]);
+	}
+	levelOneImage.src = "Images/Easy.png";
+
+	levelTwoImage.onload = function(){
+		context.drawImage(levelTwoImage, buttonXaxis[12], buttonYaxis[12]);
+	}
+	levelTwoImage.src = "Images/Normal.png";
+
+	levelThreeImage.onload = function(){
+		context.drawImage(levelThreeImage, buttonXaxis[13], buttonYaxis[13]);
+	}
+	levelThreeImage.src = "Images/Hard.png";
+
+
+
+	timerId = setInterval("update()", 1000/frames);
+	canvas.addEventListener("mousemove", checkMousePosition);
+	canvas.addEventListener("mouseup", checkMouseClick);
+	
+	function update() {
+		clear();
+		move();
+		draw();
+	}
+
+	function clear() {
+		context.clearRect(0, 0, width, height);
+	}
+
+	function move(){
+		if (goUpOrDown == 0){ 
+			backgroundMoveValue -= bgMoveSpeed;
+			if(backgroundMoveValue == -1 * height){
+				goUpOrDown = 1;
+			}
+		}
+		if (goUpOrDown == 1){ 
+			backgroundMoveValue += bgMoveSpeed;
+			if(backgroundMoveValue == 0){
+				goUpOrDown = 0;
+			}
+		}
+	}
+
+	function draw(){
+		context.drawImage(backgroundImage, 0, backgroundMoveValue);
+		context.drawImage(decreaseNoPedestrians, buttonXaxis[0], buttonYaxis[0]);
+		context.drawImage(increaseNoPedestrians, buttonXaxis[1], buttonYaxis[1]);
+		context.drawImage(decreaseNoPmd, buttonXaxis[2], buttonYaxis[2]);
+		context.drawImage(increaseNoPmd, buttonXaxis[3], buttonYaxis[3]);
+		context.drawImage(decreaseNoVehicles, buttonXaxis[4], buttonYaxis[4]);
+		context.drawImage(increaseNoVehicles, buttonXaxis[5], buttonYaxis[5]);
+		context.drawImage(exitButton, buttonXaxis[6], buttonYaxis[6]);
+		context.drawImage(numberPedestrians, buttonXaxis[7], buttonYaxis[7]);
+		context.drawImage(numberPmd, buttonXaxis[8], buttonYaxis[8]);
+		context.drawImage(numberVehicles, buttonXaxis[9], buttonYaxis[9]);
+		context.drawImage(saveButton, buttonXaxis[10], buttonYaxis[10]);
+		context.drawImage(levelOneImage, buttonXaxis[11], buttonYaxis[11]);
+		context.drawImage(levelTwoImage, buttonXaxis[12], buttonYaxis[12]);
+		context.drawImage(levelThreeImage, buttonXaxis[13], buttonYaxis[13]);
+	}
+
+
+	function checkMousePosition(mouseEvent){
+		if(mouseEvent.pageX || mouseEvent.pageY == 0){	/*  pageX/pageY returns the horizontal/vertical coordinate of the mouse pointer (in the webpage) when a mouse event is triggered */
+			mouseX = mouseEvent.pageX - this.offsetLeft;
+			mouseY = mouseEvent.pageY - this.offsetTop;
+		}else if(mouseEvent.offsetX || mouseEvent.offsetY == 0){
+			mouseX = mouseEvent.offsetX;
+			mouseY = mouseEvent.offsetY;
+		}
+	}
+
+	function checkMouseClick(mouseEvent){
+		//for(i = 0; i < buttonXaxis.length; i++){
+		for(i = 0; i < 16; i++){
+			if(mouseX > buttonXaxis[i] && mouseX < buttonXaxis[i] + buttonWidth[i]){ /* if click is within the width dimension of a button */
+				if(mouseY > buttonYaxis[i] && mouseY < buttonYaxis[i] + buttonHeight[i]){ /* and if click is within the height dimension of a button */
+					if(i==0){ //decreaseNoPedestrians
+						if(totalNoOfPedestrians>0){
+							totalNoOfPedestrians-=1
+							if(totalNoOfPedestrians==0){
+								numberPedestrians.src = "Images/noOfPedes.png";
+							} else if(totalNoOfPedestrians==1){
+								numberPedestrians.src = "Images/noOfPedes1.png";
+							} else if(totalNoOfPedestrians==2){
+								numberPedestrians.src = "Images/noOfPedes2.png";
+							} else if(totalNoOfPedestrians==3){
+								numberPedestrians.src = "Images/noOfPedes3.png";
+							}
+						}
+					}
+					else if(i==1){ //increaseNoPedestrians
+						if(totalNoOfPedestrians<3){
+							totalNoOfPedestrians+=1
+							if(totalNoOfPedestrians==0){
+								numberPedestrians.src = "Images/noOfPedes.png";
+							} else if(totalNoOfPedestrians==1){
+								numberPedestrians.src = "Images/noOfPedes1.png";
+							} else if(totalNoOfPedestrians==2){
+								numberPedestrians.src = "Images/noOfPedes2.png";
+							} else if(totalNoOfPedestrians==3){
+								numberPedestrians.src = "Images/noOfPedes3.png";
+							}
+						}
+					}
+					else if(i==2){ //decreaseNoPmd
+						if(totalNoOfPmd>0){
+							totalNoOfPmd-=1
+							if(totalNoOfPmd==0){
+								numberPmd.src = "Images/noOfPmd.png";
+							} else if(totalNoOfPmd==1){
+								numberPmd.src = "Images/noOfPmd1.png";
+							} else if(totalNoOfPmd==2){
+								numberPmd.src = "Images/noOfPmd2.png";
+							} else if(totalNoOfPmd==3){
+								numberPmd.src = "Images/noOfPmd3.png";
+							}
+						}
+					}
+					else if(i==3){ //increaseNoPmd
+						if(totalNoOfPmd<3){
+							totalNoOfPmd+=1
+							if(totalNoOfPmd==0){
+								numberPmd.src = "Images/noOfPmd.png";
+							} else if(totalNoOfPmd==1){
+								numberPmd.src = "Images/noOfPmd1.png";
+							} else if(totalNoOfPmd==2){
+								numberPmd.src = "Images/noOfPmd2.png";
+							} else if(totalNoOfPmd==3){
+								numberPmd.src = "Images/noOfPmd3.png";
+							}
+						}
+					}
+					else if(i==4){ //decreaseNoVehicles
+						if(totalNoOfVehicles>0){
+							totalNoOfVehicles-=1
+							if(totalNoOfVehicles==0){
+								numberVehicles.src = "Images/noOfVeh.png";
+							} else if(totalNoOfVehicles==1){
+								numberVehicles.src = "Images/noOfVeh1.png";
+							} else if(totalNoOfVehicles==2){
+								numberVehicles.src = "Images/noOfVeh2.png";
+							} else if(totalNoOfVehicles==3){
+								numberVehicles.src = "Images/noOfVeh3.png";
+							}
+						}
+					}
+					else if(i==5){ //increaseNoVehicles
+						if(totalNoOfVehicles<3){
+							totalNoOfVehicles+=1
+							if(totalNoOfVehicles==0){
+								numberVehicles.src = "Images/noOfVeh.png";
+							} else if(totalNoOfVehicles==1){
+								numberVehicles.src = "Images/noOfVeh1.png";
+							} else if(totalNoOfVehicles==2){
+								numberVehicles.src = "Images/noOfVeh2.png";
+							} else if(totalNoOfVehicles==3){
+								numberVehicles.src = "Images/noOfVeh3.png";
+							}
+						}
+					}
+					else if(i==6){ //Exit without saving
+						windowClose();
+					}
+					else if(i==10){  //Save data
+						if(levelSelected==0){
+							pedestrianArray[0]=totalNoOfPedestrians;
+							pmdArray[0]=totalNoOfPmd;
+							vehicleArray[0]=totalNoOfVehicles;
+						} else if(levelSelected==1){
+							pedestrianArray[1]=totalNoOfPedestrians;
+							pmdArray[1]=totalNoOfPmd;
+							vehicleArray[1]=totalNoOfVehicles;
+						} else if(levelSelected==2){
+							pedestrianArray[2]=totalNoOfPedestrians;
+							pmdArray[2]=totalNoOfPmd;
+							vehicleArray[2]=totalNoOfVehicles;
+						}
+						windowClose();
+					} else if(i==11){ //Selected Easy
+						levelSelected=0;
+						levelOneImage.src = "Images/EasyGlow.png";
+						levelTwoImage.src = "Images/Normal.png";
+						levelThreeImage.src = "Images/Hard.png";
+					} else if(i==12){ //Selected Normal
+						levelSelected=1;
+						levelOneImage.src = "Images/Easy.png";
+						levelTwoImage.src = "Images/NormalGlow.png";
+						levelThreeImage.src = "Images/Hard.png";
+					} else if(i==13){ //Selected Hard
+						levelSelected=2;
+						levelOneImage.src = "Images/Easy.png";
+						levelTwoImage.src = "Images/Normal.png";
+						levelThreeImage.src = "Images/HardGlow.png";
+					}
+				}
+			}
+		}
+	}
+
+	function windowClose() {
+		window.open('','_parent','');
+		window.close();
+	}
+
+</script> 
+</body>
+
+</html> 
