@@ -9,12 +9,58 @@
     <script src="https://unpkg.com/aframe-aabb-collider-component@^2.2.1/dist/aframe-aabb-collider-component.min.js"></script>
     <script src="./aabbCollider/EventSet.js"></script>
     <script src="./aabbCollider/Collider.js"></script>
-    <script src="carComponent.js"></script>
     <script src="cubeComponent.js"></script>
     <script src="flagComponent.js"></script>
     <script src="playerComponent.js"></script>
+    
+    <script>
+      AFRAME.registerComponent('overlay-visibility', {
+        init: function () {
+          if (!this.el.isMobile) {
+            document.querySelector('#about').style.display = 'block';
+          }
+        }
+      });
+    </script>
+    <style>
+        #about {
+            display: none;
+            position: absolute;
+            z-index: 7001;
+            width: 300px;
+            top: 40px;
+            right: 40px;
+            font: 14px 'Voces', Arial, sans-serif;
+            color: white;
+            line-height: 1.3rem;
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        #about p:last-child{
+        margin: 0;
+        }
+
+        #about b{
+          font-weight: bold;
+          font-family: monospace;
+        }
+
+        @media (max-width: 400px), (max-height: 300px) {
+            #about {
+                left: 5%;
+                top: 5%;
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div id="about">
+        <p id = "hp">100</p>
+    </div>
     <a-scene>
         <a-assets>
             <img id = "ground" src="asset/ground.jpg">
@@ -52,7 +98,7 @@
                 player = "name: Player"
                 id = "Player"
                 color="white"
-                collision = 0;
+                collision = "0";
                 aabb-collider="objects: .car, .nonbike; interval: 0"
                 height="0.5" width="0.5" depth = "2"
                 static-body
@@ -71,42 +117,43 @@
         <a-plane src="#bikelane" width="5" height="5" rotation="-90 0 0" static-body position = "-87.5 0.05 37.5"></a-plane>
         <a-plane color="#414d67" width="5" height="80" rotation="-90 0 0" static-body position = "-87.5 0 0"></a-plane>
         <a-plane src="#pedestrian" width="5" height="5" rotation="-90 0 0" static-body position = "-82.5 0.05 37.5"></a-plane>
-        <a-plane src="#walkway" width="5" height="24" rotation="-90 0 0" static-body position = "-82.5 0 28""></a-plane>
-        <a-plane src="#walkway" width="5" height="51" rotation="-90 0 0" static-body position = "-82.5 0 -14.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="24" rotation="-90 0 0" static-body position = "-82.5 0 28""></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="51" rotation="-90 0 0" static-body position = "-82.5 0 -14.5"></a-plane>
         <a-plane src="#shared" width="5" height="5" rotation="-90 -90 0" static-body position = "-82.5 0 13.5"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="24" rotation="-90 0 0" static-body position = "-57.5 0 28"></a-plane>
-        <a-plane src="#walkway" width="5" height="31" rotation="-90 0 0" static-body position="-57.5 0 -4.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="24" rotation="-90 0 0" static-body position = "-57.5 0 28"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="31" rotation="-90 0 0" static-body position="-57.5 0 -4.5"></a-plane>
         <a-plane color="#414d67" width="5" height="60" rotation="-90 0 0" static-body position = "-52.5 0 10"></a-plane>
         <a-plane src="#shared" width="5" height="5" rotation="-90 -90 0" static-body position = "-57.5 0 13.5"></a-plane>
 
         <a-plane color="#414d67" width="5" height="50" rotation="-90 90 0" static-body position = "-25 0 2.5"></a-plane>
-        <a-plane src="#walkway" width="5" height="10" rotation="-90 90 0" static-body position = "-45 0 7.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="10" rotation="-90 90 0" static-body position = "-45 0 7.5"></a-plane>
 
         <a-plane color="#414d67" width="5" height="25" rotation="-90 180 0" static-body position = "-37.5 0 17.5"></a-plane>
-        <a-plane src="#walkway" width="5" height="20" rotation="-90 180 0" static-body position = "-32.5 0 15"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="20" rotation="-90 180 0" static-body position = "-32.5 0 15"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="20" rotation="-90 90 0" static-body position = "-20 0 22.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="20" rotation="-90 90 0" static-body position = "-20 0 22.5"></a-plane>
         <a-plane color="#414d67" width="5" height="55" rotation="-90 90 0" static-body position = "-7.5 0 27.5"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="20" rotation="-90 180 0" static-body position = "-7.5 0 15"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="20" rotation="-90 180 0" static-body position = "-7.5 0 15"></a-plane>
         <a-plane color="#414d67" width="5" height="20" rotation="-90 180 0" static-body position = "-2.5 0 15"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="20" rotation="-90 90 0" static-body position = "-20 0 7.5"></a-plane>
-        <a-plane src="#walkway" width="5" height="10" rotation="-90 90 0" static-body position = "5 0 22.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="20" rotation="-90 90 0" static-body position = "-20 0 7.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="10" rotation="-90 90 0" static-body position = "5 0 22.5"></a-plane>
 
         <a-plane color="#414d67" width="5" height="60" rotation="-90 0 0" static-body position = "-52.5 0 10"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="45" rotation="-90 180 0" static-body position = "12.5 0 2.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="45" rotation="-90 180 0" static-body position = "12.5 0 2.5"></a-plane>
         <a-plane color="#414d67" width="5" height="35" rotation="-90 180 0" static-body position = "17.5 0 7.5"></a-plane>
 
         <a-plane color="#414d67" width="5" height="20" rotation="-90 90 0" static-body position = "25 0 -12.5"></a-plane>
-        <a-plane src="#walkway" width="5" height="25" rotation="-90 90 0" static-body position = "27.5 0 -17.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="25" rotation="-90 90 0" static-body position = "27.5 0 -17.5"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="50" rotation="-90 180 0" static-body position = "37.5 0 10"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="32.5" rotation="-90 180 0" static-body position = "37.5 0 18.75"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="12.5" rotation="-90 180 0" static-body position = "37.5 0 -8.75"></a-plane>
         <a-plane color="#414d67" width="5" height="50" rotation="-90 180 0" static-body position = "32.5 0 15"></a-plane>
 
-        <a-plane src="#walkway" width="5" height="20" rotation="-90 90 0" static-body position = "50 0 32.5"></a-plane>
+        <a-plane src="#walkway" repeat = "2 10" width="5" height="20" rotation="-90 90 0" static-body position = "50 0 32.5"></a-plane>
         <a-plane color="#414d67" width="5" height="25" rotation="-90 90 0" static-body position = "47.5 0 37.5"></a-plane>
         <!-------------------------------------------road-------------------------->
         <a-plane src="#zebra" width="5" height="20" rotation="-90 -90 0" static-body position = "-70 0.05 13.5"></a-plane>
@@ -126,6 +173,10 @@
         <a-plane src="#junction" width="20" height="20" rotation="-90 0 0" static-body position = "80 0 20"></a-plane>
         <a-plane src="#road" width="20" height="50" rotation="-90 0 0" static-body position = "80 0 -15"></a-plane>
         <a-plane src="#road" width="20" height="10" rotation="-90 0 0" static-body position = "80 0 35"></a-plane>
+        <a-plane src="#zebra" width="5" height="20" rotation="-90 -90 0" static-body position = "50 0.05 0.045"></a-plane>
+        <a-plane src="#shared" width="5" height="5" rotation="-90 -90 0" static-body position = "37.5 0 0"></a-plane>
+        <a-plane color="#414d67" width="5" height="8" rotation="-90 90 0" static-body position = "64 0.05 0"></a-plane>
+        <a-plane color="#414d67" width="5" height="45" rotation="-90 0 0" static-body position = "65.5 0.05 -24.5"></a-plane>
         <!-------------------------------------------scenery-------------------------->
         <a-plane src="#ground" width="20" height="20" rotation="-90 90 0" static-body position = "-20 0 -30"></a-plane>
         <a-plane src="#ground" width="10" height="50" rotation="-90 0 0" static-body position = "65 0 -15"></a-plane>
@@ -167,7 +218,7 @@
 
          <a-box
             src = "#fence"
-            position="-99 1 0" width="0.5" height="2" depth="30"
+            repeat = "10 1" position="-99 1 0" width="0.5" height="2" depth="30"
             static-body >
         </a-box>
         <a-box
@@ -188,6 +239,46 @@
         <a-box
             src = "#grey"
             position="70 0.7 35" width="0.3" height="1.4" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="60 0.7 6.2" width="0.3" height="1.4" depth="7.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="65 0.7 9.8" rotation="0 90 0" width="0.3" height="1.4" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="60 0.7 -21.25" width="0.3" height="1.4" depth="37.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="70 0.7 -15" width="0.3" height="1.4" depth="50"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="60 3 -44.5" width="0.3" height="6" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="70 3 -44.5" width="0.3" height="6" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="65 3 -49" rotation="0 90 0" width="0.3" height="6" depth="9.5"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="65 6 -44.5" rotation="0 90 90" width="0.2" height="10" depth="9.5"
             static-body>
         </a-box>
         <!-------------------------------internal obstacle------------------------->
@@ -223,17 +314,17 @@
         </a-box>
         <a-box
             src = "#fence"
-            position="-45 1 24" width="0.5" height="2" depth="6"
+             repeat = "10 1"  position="-45 1 24" width="0.5" height="2" depth="6"
             static-body >
         </a-box>
         <a-box
             src = "#fence"
-            position="0 1 50" rotation="0 90 0" width="0.5" height="2" depth="200"
+             repeat = "10 1" position="0 1 50" rotation="0 90 0" width="0.5" height="2" depth="200"
             static-body >
         </a-box>
         <a-box
             src = "#fence"
-            position="-99.7 1 45" width="0.5" height="2" depth="10"
+            repeat = "10 1"  position="-99.7 1 45" width="0.5" height="2" depth="10"
             static-body >
         </a-box>
         <a-box
@@ -376,13 +467,23 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="37.5 2 10" width="5" height="5" depth="50"
+            position="37.5 2 -8.8" width="5" height="5" depth="12.5"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
             car = "name: hitbox14"
             id = "hitbox14"
+            collision = 0
+            color="green"
+            material="transparent: true; opacity: 0;"
+            position="37.5 2 18.7" width="5" height="5" depth="32.5"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox15"
+            id = "hitbox15"
             collision = 0
             color="green"
             rotation="0 90 0"
@@ -392,22 +493,12 @@
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
-            car = "name: hitbox15"
-            id = "hitbox15"
-            collision = 0
-            color="green"
-            material="transparent: true; opacity: 0;"
-            position="-70 2 28" width="12" height="5" depth="24"
-            event-set__hitstart="color: orange" 
-            event-set__hitend="color: green" >
-        </a-box>
-        <a-box class = "nonbike"
             car = "name: hitbox16"
             id = "hitbox16"
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="-70 2 -12" width="12" height="5" depth="46"
+            position="-70 2 28" width="12" height="5" depth="24"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -417,8 +508,7 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            rotation="0 90 0"
-            position="-48.5 2 -30" width="12" height="5" depth="30"
+            position="-70 2 -12" width="12" height="5" depth="46"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -428,7 +518,8 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            position="-40 2 -14" width="12" height="5" depth="20"
+            rotation="0 90 0"
+            position="-48.5 2 -30" width="12" height="5" depth="30"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -438,8 +529,7 @@
             collision = 0
             color="green"
             material="transparent: true; opacity: 0;"
-            rotation="0 90 0"
-            position="-14 2 -10" width="12" height="5" depth="38.5"
+            position="-40 2 -14" width="12" height="5" depth="20"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -447,9 +537,10 @@
             car = "name: hitbox20"
             id = "hitbox20"
             collision = 0
-            material="transparent: true; opacity: 0;"
             color="green"
-            position="-0.5 2 -26.5" width="12" height="5" depth="20"
+            material="transparent: true; opacity: 0;"
+            rotation="0 90 0"
+            position="-14 2 -10" width="12" height="5" depth="38.5"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -459,8 +550,7 @@
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
-            rotation="0 90 0"
-            position="31 2 -30" width="12" height="5" depth="51"
+            position="-0.5 2 -26.5" width="12" height="5" depth="20"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -470,7 +560,8 @@
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
-            position="50 2 1.2" width="12" height="5" depth="50"
+            rotation="0 90 0"
+            position="31 2 -30" width="12" height="5" depth="51"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
@@ -480,14 +571,34 @@
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
-            rotation="0 90 0"
-            position="65 2 20" width="12" height="5" depth="18.5"
+            position="50 2 -11.5" width="12" height="5" depth="17.5"
             event-set__hitstart="color: orange" 
             event-set__hitend="color: green" >
         </a-box>
         <a-box class = "nonbike"
             car = "name: hitbox24"
             id = "hitbox24"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            color="green"
+            position="50 2 15" width="12" height="5" depth="25"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox25"
+            id = "hitbox25"
+            collision = 0
+            material="transparent: true; opacity: 0;"
+            color="green"
+            rotation="0 90 0"
+            position="65 2 20" width="12" height="5" depth="18.5"
+            event-set__hitstart="color: orange" 
+            event-set__hitend="color: green" >
+        </a-box>
+        <a-box class = "nonbike"
+            car = "name: hitbox26"
+            id = "hitbox26"
             collision = 0
             material="transparent: true; opacity: 0;"
             color="green"
@@ -563,7 +674,7 @@
             src = "#flag"
             position="65 3 -45" width="5" height="5" depth="5"
             event-set__hitstart="color: #42f48f" 
-            event-set__hitend="color: #42f48f" >
+            event-set__hitend="color: white" >
             <a-animation attribute="rotation"
                 dur="2000" 
                 from="0 0 0" 
@@ -576,6 +687,98 @@
     </a-scene>
     <!--render car-->
     <script>
+        var carRotation = [25,
+                           112,
+                           -65,
+                           24,
+                           20, 
+                           202,
+                           -66,
+                           114,
+                           114,
+                           114];
+
+        var carFrom = [-75 + ' ' + -0.5 + ' ' + 43,
+                       -45 + ' ' + -0.5 + ' ' + -24,
+                       -2.8 + ' ' + -0.5 + ' ' + -35,
+                       44 + ' ' + -0.5 + ' ' + 22,
+                       75 + ' ' + -0.5 + ' ' + 15,
+                       -65 + ' ' + -0.5 + ' ' + -30, 
+                       -43 + ' ' + -0.5 + ' ' + -15,
+                       4 + ' ' + -0.5 + ' ' + -6.5,
+                       40 + ' ' + -0.5 + ' ' + -25,
+                       75 + ' ' + -0.5 + ' ' + 25];
+
+        var carTo = [-75 + ' ' + -0.5 + ' ' + -12,
+                       -60 + ' ' + -0.5 + ' ' + -24,
+                       46 + ' ' + -0.5 + ' ' + -35,
+                       44 + ' ' + -0.5 + ' ' + -21,
+                       75 + ' ' + -0.5 + ' ' + -30, 
+                       -65 + ' ' + -0.5 + ' ' + 31,
+                       -3.5 + ' ' + -0.5 + ' ' + -15,
+                       -44 + ' ' + -0.5 + ' ' + -6.5,
+                       6 + ' ' + -0.5 + ' ' + -25,
+                       46 + ' ' + -0.5 + ' ' + 25];
+
+        var carDur = [5000,2000,3000,3000,4000, 5000, 4000, 3000, 3000, 3000];
+
+        var pedestrianFrom = [-82.5 + ' ' + 1 + ' ' + -15,
+                              -50 + ' ' + 1 + ' ' + 7.5,
+                              -31.5 + ' ' + 1 + ' ' + 22.5,
+                              37.5 + ' ' + 1 + ' ' + -10,
+                              -23.44 + ' ' + 1 + ' ' + 9,
+                              -8 + ' ' + 1 + ' ' + 9,
+                              11 + ' ' + 1 + ' ' + 20,
+                              35 + ' ' + 1 + ' ' + 0,
+                              -7 + ' ' + 1 + ' ' + 6,
+                              -69 + ' ' + 1 + ' ' + 12,
+                              -32 + ' ' + 1 + ' ' + 7,
+                              2 + ' ' + 1 + ' ' + 22,
+                              -57 + ' ' + 1 + ' ' + 8,
+                              32 + ' ' + 1 + ' ' + 26,
+                              -10 + ' ' + 1 + ' ' + 25];
+
+        var pedestrianTo = [-82.5 + ' ' + 1 + ' ' + 0,
+                            -45 + ' ' + 1 + ' ' + 7.5,
+                            -20 + ' ' + 1 + ' ' + 22.5,
+                            37.5 + ' ' + 1 + ' ' + 17.5,
+                            -13 + ' ' + 1 + ' ' + 9,
+                            -8 + ' ' + 1 + ' ' + 20,
+                            11 + ' ' + 1 + ' ' + -16,
+                            36 + ' ' + 1 + ' ' + 27,
+                            -30 + ' ' + 1 + ' ' + 6.5,
+                            -70 + ' ' + 1 + ' ' + 12,
+                            -42 + ' ' + 1 + ' ' + 7,
+                            -10 + ' ' + 1 + ' ' + 22,
+                            -57 + ' ' + 1 + ' ' + 24,
+                            38 + ' ' + 1 + ' ' + 37,
+                            4 + ' ' + 1 + ' ' + 30];                             
+        var pedestrianDur = [4000];
+
+        var bicycleRotation = [0, 0, 90, 90, 0, 0, 90, 90, 90, 0];
+        var bicycleFrom = [-82 + ' ' + 0.7 + ' ' + 1.4,
+                           -52 + ' ' + 0.7 + ' ' + -2,
+                           -31 + ' ' + 0.7 + ' ' + 3,
+                           -32 + ' ' + 0.7 + ' ' + 27.5,
+                           17 + ' ' + 0.7 + ' ' + 23,
+                           32 + ' ' + 0.7 + ' ' + -3,
+                           33 + ' ' + 0.7 + ' ' + 36,
+                           -47 + ' ' + 0.7 + ' ' + 1.3,
+                           -31 + ' ' + 0.7 + ' ' + 26,
+                           33 + ' ' + 0.7 + ' ' + -3];
+
+        var bicycleTo = [-82 + ' ' + 0.7 + ' ' + 18,
+                         -52 + ' ' + 0.7 + ' ' + 18,
+                         -7 + ' ' + 0.7 + ' ' + 3,
+                         -12 + ' ' + 0.7 + ' ' + 27.5,
+                         18 + ' ' + 0.7 + ' ' + -1.5,
+                         32 + ' ' + 0.7 + ' ' + 31,
+                         53 + ' ' + 0.7 + ' ' + 36,
+                         -17 + ' ' + 0.7 + ' ' + 3,
+                         -22 + ' ' + 0.7 + ' ' + 29,
+                         33 + ' ' + 0.7 + ' ' + 20];
+        var bicycleDur = [2000];
+       
         document.querySelector('a-scene').addEventListener('loaded', function () {
             var platformsEl = document.querySelector('#movingObstacle');
             var v, car, animation, pedas;
