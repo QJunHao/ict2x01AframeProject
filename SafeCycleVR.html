@@ -796,8 +796,7 @@
                             -10 + ' ' + 1 + ' ' + 22,
                             -57 + ' ' + 1 + ' ' + 24,
                             38 + ' ' + 1 + ' ' + 37,
-                            4 + ' ' + 1 + ' ' + 30];                             
-        var pedestrianDur = [4000];
+                            4 + ' ' + 1 + ' ' + 30];                            
 
         var bicycleRotation = [0, 0, 90, 90, 0, 0, 90, 90, 90, 0];
         var bicycleFrom = [-82 + ' ' + 0.7 + ' ' + 1.4,
@@ -825,8 +824,9 @@
        
         document.querySelector('a-scene').addEventListener('loaded', function () {
             var platformsEl = document.querySelector('#movingObstacle');
-            var v, car, animation, pedas;
-            for (var i = 0;  i < 10; i++) {
+            var car, animation, pedas;
+
+            for (var i = 0;  i < Math.floor(Math.random() * 10) + 1; i++) {
                 car = document.createElement('a-obj-model');
                 var j = i+1;
                 car.setAttribute('class', 'car');
@@ -852,7 +852,7 @@
                 carAnimation = platformsEl.querySelector("#car" + j);
                 carAnimation.appendChild(animation);
             }
-            for (var i = 0;  i < 15; i++) {
+            for (var i = 0;  i < Math.floor(Math.random() * 15) + 1; i++) {
                 pedas = document.createElement('a-box');
                 var j = i+1;
                 pedas.setAttribute('class', 'car');
@@ -879,7 +879,7 @@
                 pedestrianAnimation = platformsEl.querySelector("#pedestrian" + j);
                 pedestrianAnimation.appendChild(animation);
             }
-            for (var i = 0;  i < 10; i++) {
+            for (var i = 0;  i < Math.floor(Math.random() * 10) + 1; i++) {
                 bicycle = document.createElement('a-box');
                 var j = i+1;
                 bicycle.setAttribute('class', 'car');
