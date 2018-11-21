@@ -19,13 +19,11 @@ AFRAME.registerComponent('player', {
 	    var sceneEl = document.querySelector('a-scene');
 	    var player = sceneEl.querySelector('#' + playeName);
 
+	    document.getElementById("hp").innerHTML = "Current damage: " + parseInt(player.getAttribute("collision")/10);
+
   		if (player.getAttribute("color") == "orange"){
   			var collision = parseInt(player.getAttribute("collision")) + 1;
   			player.setAttribute("collision", collision);
-  			console.log(parseInt(player.getAttribute("collision")));
-  			if (collision > 5){
-  				console.log("Player collision detected!");
-  			}
   		}
   	}
 });
