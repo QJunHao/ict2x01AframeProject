@@ -19,12 +19,12 @@ AFRAME.registerComponent('navcube', {
 
   		if (box.getAttribute("color") == "#42f48f"){
   			if (cubeName == "game")
-  				window.open("http://localhost/Aframe/SafeCycleVR.html", '_self', false);
+  				window.open("SafeCycleVR.html", '_self', false);
   			else if (cubeName == "quit")
-  				window.open("http://localhost/Aframe/SafeCycleVRMain.html", '_self', false);
+  				window.open("SafeCycleVRMain.html", '_self', false);
   				//window.open("http://localhost/Aframe/map.html", '_self', false);
         else if (cubeName == "tut")
-          window.open("http://localhost/Aframe/SafeCycleVRTutorial.html", '_self', false);
+          window.open("SafeCycleVRTutorial.html", '_self', false);
   		}
   	}
 });

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>SafeCycleVRTutorial</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-component@^0.4.1/dist/aframe-text-component.min.js"></script> 
+    <script src="https://unpkg.com/aframe-aabb-collider-component@^2.2.1/dist/aframe-aabb-collider-component.min.js"></script>
+    <script src="./aabbCollider/EventSet.js"></script>
+    <script src="./aabbCollider/Collider.js"></script>
+    <script src="cubeComponent.js"></script>
+    <script src="navComponent.js"></script>
+    <script src="flagComponent.js"></script>
+    <script src="playerComponent.js"></script>
+    <style>
+  #about {
+        display: none;
+        position: absolute;
+        z-index: 7001;
+        width: 300px;
+        top: 40px;
+        right: 40px;
+        font: 14px 'Voces', Arial, sans-serif;
+        color: white;
+        line-height: 1.3rem;
+        background: rgba(0,0,0,0.2);
+        padding: 1rem;
+        box-sizing: border-box;
+        display: block;
+      }
+
+       #about p:last-child{
+        margin: 0;
+      }
+
+      #about b{
+          font-weight: bold;
+          font-family: monospace;
+      }
+
+      @media (max-width: 400px), (max-height: 300px) {
+      #about {
+        left: 5%;
+        top: 5%;
+        width: 90%;
+      }
+      }
+</style>
+</head>
+<body>
+     <div id="about">
+        <p id = "hp">Current health: 100%</p>
+    </div>
+    <a-scene>
+        <a-assets>
+            <img id = "ground" src="asset/ground.jpg">
+            <img id = "road" src="asset/road.jpg">
+            <img id = "zebra" src="asset/zebra.jpg">
+            <img id = "walkway" src="asset/walkway.jpg">
+            <img id = "pedestrian" src="asset/pedestrian.jpg">
+            <img id = "junction" src="asset/junction.jpg">
+            <img id = "bikelane" src="asset/bikelane.jpg">
+            <img id = "bikepark" src="asset/bikepark.png">
+            <img id = "building" src="asset/building.jpg">
+            <img id = "tree" src="asset/tree.jpg">
+            <img id = "fence" src="asset/fence.jpg">
+            <img id = "slides" src="asset/slides.jpg">
+            <img id = "swing" src="asset/swing.jpg">
+            <img id = "coffee" src="asset/coffee.jpg">
+            <img id = "toy" src="asset/toy.jpg">
+            <img id = "grey" src="asset/grey.jpg">
+            <img id = "carpark" src="asset/carpark.jpg">
+            <img id = "shared" src="asset/shared.png">
+            <img id = "walkingpedestrian" src="asset/walkingpedestrian.jpg">
+            <img id = "bicycle" src="asset/bicycle.jpg">
+            <img id = "checkpoint" src="asset/checkpoint.png">
+            <img id = "clear" src="asset/clear.jpg">
+            <img id = "flag" src="asset/flag.jpg">
+            <img id = "exit" src="asset/exit.jpg">
+            <img id = "play" src="asset/play.jpg">
+            <img id = "tutorial" src="asset/tutorial.jpg">
+            <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
+            <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
+        </a-assets>
+        <a-entity id="player"
+            camera
+            universal-controls
+            kinematic-body
+            position="0 2.5 3.5">
+            <a-box class = "player"
+                player = "name: Player"
+                id = "Player"
+                color="white"
+                 hp = "100";
+                aabb-collider="objects: .car, .nonbike; interval: 0"
+                height="0.5" width="0.5" depth = "2"
+                static-body
+                event-set__hitstart="opacity: 0.5; color: orange" 
+                event-set__hitend="opacity: 1; color: white" >
+            </a-box>
+        </a-entity>
+        <a-plane src="#ground" width="10" height="10" rotation="-90 0 0" static-body position = "0 0.1 0"></a-plane>
+        <a-box
+            src = "#grey"
+            position="-5 0.7 0" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+         <a-box
+            src = "#grey"
+            position="5 0.7 0" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+        <a-box
+            src = "#grey"
+            position="0 0.7 5" rotation = "0 90 0" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+       <a-box
+            src = "#grey"
+            position="0 0.7 -5" rotation = "0 90 0" width="0.3" height="1.4" depth="10"
+            static-body>
+        </a-box>
+        <a-sky id="sky" color="#AADDF0"></a-sky>
+       <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "0 3 -3"
+            material="color: blue"
+             text="value: It seems that you didn't do very well in the game. You may want to practice more before trying again.                                      ----------------------------------------------------------------------------- Back to game: Left                                                              Go to tutorial: Center                                                      Back to menu: Right;
+                align: center; ">
+        </a-entity>
+        <a-box class = "car"
+            navcube = "name: game"
+            id = "game"
+            clear = 0
+            color="white"
+            src = "#play"
+            position="-2 1 -2" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+         <a-box class = "car"
+            navcube = "name: tut"
+            id = "tut"
+            clear = 0
+            color="white"
+            src = "#tutorial"
+            position="0 1 -2" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            navcube = "name: quit"
+            id = "quit"
+            clear = 0
+            color="white"
+            src = "#exit"
+            position="2 1 -2" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+</a-scene>
+    <!--render car-->
+    <script>
+      AFRAME.registerComponent('overlay-visibility', {
+        init: function () {
+          if (!this.el.isMobile) {
+            document.querySelector('#about').style.display = 'block';
+          }
+        }
+      });
+</script>
+</body>
+</html>

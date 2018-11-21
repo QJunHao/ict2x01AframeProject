@@ -21,7 +21,7 @@ AFRAME.registerComponent('player', {
 
 	    document.getElementById("hp").innerHTML = "Current health: " + parseInt(player.getAttribute("hp")) + "%";
 	    if (parseInt(player.getAttribute("hp")) < 1){
-	    	window.open("SafeCycleVRTutorial.html", '_self', false);
+	    	window.open("SafeCycleVRLose.html", '_self', false);
 	    }
 
   		if (player.getAttribute("color") == "orange"){
