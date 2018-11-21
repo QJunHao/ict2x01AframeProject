@@ -11,6 +11,7 @@
     <script src="./aabbCollider/EventSet.js"></script>
     <script src="./aabbCollider/Collider.js"></script>
     <script src="cubeComponent.js"></script>
+    <script src="navComponent.js"></script>
     <script src="flagComponent.js"></script>
     <script src="playerComponent.js"></script>
     <style>
@@ -77,6 +78,8 @@
             <img id = "checkpoint" src="asset/checkpoint.png">
             <img id = "clear" src="asset/clear.jpg">
             <img id = "flag" src="asset/flag.jpg">
+            <img id = "exit" src="asset/exit.jpg">
+            <img id = "play" src="asset/play.jpg">
             <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
             <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
         </a-assets>
@@ -228,7 +231,7 @@
             geometry="primitive: plane; width: 3; height: 2"
             position = "0 3 50"
             material="color: blue"
-            text="value: Welcome to the tutorial!                                        Please walk forward and complete all tasks to finish the tutorial.;
+             text="value: Welcome to the tutorial!                                        Please walk forward and complete all tasks to finish the tutorial.                                                                                                                                                                                                                                            -------------------------------------------------------------------------------- Back to main menu: turn right and touch the exit cube.                                                                                  Go to the game: turn left and touch the game cube;
                 align: center; ">
         </a-entity>
         <a-entity
@@ -377,6 +380,36 @@
             color="white"
             src = "#flag"
             position="-2.5 1 -110" width="2" height="2" depth="2"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            navcube = "name: quit"
+            id = "quit"
+            color="white"
+            src = "#exit"
+            position="4 1 55" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            navcube = "name: game"
+            id = "game"
+            color="white"
+            src = "#play"
+            position="-4 1 55" width="1" height="1" depth="1"
             event-set__hitstart="color: #42f48f" 
             event-set__hitend="color: white" >
             <a-animation attribute="rotation"

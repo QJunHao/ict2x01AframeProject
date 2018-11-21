@@ -10,6 +10,7 @@
     <script src="./aabbCollider/EventSet.js"></script>
     <script src="./aabbCollider/Collider.js"></script>
     <script src="cubeComponent.js"></script>
+    <script src="navComponent.js"></script>
     <script src="flagComponent.js"></script>
     <script src="playerComponent.js"></script>
     
@@ -59,7 +60,7 @@
 </head>
 <body>
     <div id="about">
-        <p id = "hp">100</p>
+        <p id = "hp">Current damage: 0</p>
     </div>
     <a-scene>
         <a-assets>
@@ -86,6 +87,9 @@
             <img id = "checkpoint" src="asset/checkpoint.png">
             <img id = "clear" src="asset/clear.jpg">
             <img id = "flag" src="asset/flag.jpg">
+            <img id = "exit" src="asset/exit.jpg">
+            <img id = "play" src="asset/play.jpg">
+            <img id = "tutorial" src="asset/tutorial.jpg">
             <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
             <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
         </a-assets>
@@ -186,6 +190,14 @@
         <a-plane src="#ground" width="20" height="10" rotation="-90 90 0" static-body position = "5 0 10"></a-plane>
         <a-plane src="#ground" width="10" height="40" rotation="-90 0 0" static-body position = "25 0 10"></a-plane>
         <a-plane src="#bikepark" width="10" height="10" rotation="-90 -90 0" static-body position = "65 0 35"></a-plane>
+
+         <a-entity
+            geometry="primitive: plane; width: 3; height: 2"
+            position = "-85 3 40"
+            material="color: blue"
+            text="value: Welcome to the game! Touch the checkpoint and get to the finishing cube.                                                                   Remember to follow all traffic rules and good etiquette for riding in public.                                               Good luck!;
+                align: center; ">
+        </a-entity>
 
         <a-sky id="sky" color="#AADDF0"></a-sky>
 
@@ -673,6 +685,38 @@
             color="white"
             src = "#flag"
             position="65 3 -45" width="5" height="5" depth="5"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            navcube = "name: tut"
+            id = "tut"
+            clear = 0
+            color="white"
+            src = "#tutorial"
+            position="-88 1 45" width="1" height="1" depth="1"
+            event-set__hitstart="color: #42f48f" 
+            event-set__hitend="color: white" >
+            <a-animation attribute="rotation"
+                dur="2000" 
+                from="0 0 0" 
+                to="0 360 0" 
+                repeat="indefinite">
+            </a-animation>
+        </a-box>
+        <a-box class = "car"
+            navcube = "name: quit"
+            id = "quit"
+            clear = 0
+            color="white"
+            src = "#exit"
+            position="-82 1 45" width="1" height="1" depth="1"
             event-set__hitstart="color: #42f48f" 
             event-set__hitend="color: white" >
             <a-animation attribute="rotation"
