@@ -2,7 +2,7 @@ AFRAME.registerComponent('player', {
     schema: {
 	  	name: {type: 'string'},
 	  	color: {type: 'string', default: 'Not set'},
-	  	collision: {type: 'string', default: 0}
+	  	hp: {type: 'string', default: 100}
 	},
   	init: function () {
 	    var playerName = this.data.name;
@@ -19,11 +19,14 @@ AFRAME.registerComponent('player', {
 	    var sceneEl = document.querySelector('a-scene');
 	    var player = sceneEl.querySelector('#' + playeName);
 
-	    document.getElementById("hp").innerHTML = "Current damage: " + parseInt(player.getAttribute("collision")/10);
+	    document.getElementById("hp").innerHTML = "Current health: " + parseInt(player.getAttribute("hp")) + "%";
+	    if (parseInt(player.getAttribute("hp")) < 1){
+	    	window.open("SafeCycleVRTutorial.html", '_self', false);
+	    }
 
   		if (player.getAttribute("color") == "orange"){
-  			var collision = parseInt(player.getAttribute("collision")) + 1;
-  			player.setAttribute("collision", collision);
+  			var hp = parseFloat(player.getAttribute("hp")) - 0.2;
+  			player.setAttribute("hp", hp);
   		}
   	}
 });

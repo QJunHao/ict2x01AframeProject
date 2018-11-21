@@ -60,7 +60,7 @@
 </head>
 <body>
     <div id="about">
-        <p id = "hp">Current damage: 0</p>
+        <p id = "hp">Current health: 100%</p>
     </div>
     <a-scene>
         <a-assets>
@@ -91,9 +91,11 @@
             <img id = "play" src="asset/play.jpg">
             <img id = "tutorial" src="asset/tutorial.jpg">
             <a-asset-item id="car-obj" src="asset/3dcar.obj"></a-asset-item>
-            <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>
+            <a-asset-item id="car-mtl" src="asset/3dcar.mtl"></a-asset-item>\
+            <a-asset-item id="bicycle-obj" src="asset/bicycle.obj"></a-asset-item>
+            <a-asset-item id="bicycle-mtl" src="asset/bicycle.mtl"></a-asset-item>
         </a-assets>
-        <a-entity id="player"
+         <a-entity id="player"
             camera
             universal-controls
             kinematic-body
@@ -102,7 +104,7 @@
                 player = "name: Player"
                 id = "Player"
                 color="white"
-                collision = "0";
+                hp = "100";
                 aabb-collider="objects: .car, .nonbike; interval: 0"
                 height="0.5" width="0.5" depth = "2"
                 static-body

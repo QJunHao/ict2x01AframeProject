@@ -51,7 +51,7 @@
 </head>
 <body>
      <div id="about">
-        <p id = "hp">Current damage: 0</p>
+        <p id = "hp">Current health: 100%</p>
     </div>
     <a-scene>
         <a-assets>
@@ -92,7 +92,7 @@
                 player = "name: Player"
                 id = "Player"
                 color="white"
-                collision = "0";
+                 hp = "100";
                 aabb-collider="objects: .car, .nonbike; interval: 0"
                 height="0.5" width="0.5" depth = "2"
                 static-body
@@ -238,7 +238,7 @@
             geometry="primitive: plane; width: 3; height: 2"
             position = "0 3 40"
             material="color: blue"
-            text="value: You must travel on the correct path to avoid any damage and clear the tutorial.                                     If your damage reaches 100, you will need to restart the tutorial.                                                               Clue: you are travelling on a bicycle!;
+            text="value: You must travel on the correct path to avoid any damage and clear the tutorial.                                     If your health reaches 0%, you will need to restart the tutorial.                                                               Clue: you are travelling on a bicycle!;
                 align: center; ">
         </a-entity>
         <a-entity
