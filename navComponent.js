@@ -19,13 +19,12 @@ AFRAME.registerComponent('navcube', {
 
   		if (box.getAttribute("color") == "#42f48f"){
   			if (cubeName == "game")
-  				console.log("game");
-  				//window.open("http://localhost/Aframe/map.html", '_self', false);
+  				window.open("http://localhost/Aframe/SafeCycleVR.html", '_self', false);
   			else if (cubeName == "quit")
   				console.log("quit");
   				//window.open("http://localhost/Aframe/map.html", '_self', false);
         else if (cubeName == "tut")
-          console.log("tutorial");
+          window.open("http://localhost/Aframe/SafeCycleVRTutorial.html", '_self', false);
   		}
   	}
 });
